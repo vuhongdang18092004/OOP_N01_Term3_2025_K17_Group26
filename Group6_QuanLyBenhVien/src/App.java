@@ -1,10 +1,21 @@
-
-
-import Group6_QuanLyBenhVien.test.testPerson;
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
-        testPerson t = new testPerson();
-        t.test();
+        // Gọi các test để kiểm tra các chức năng
+        System.out.println("Starting tests...");
+
+        // Gọi các phương thức test của từng lớp
+        System.out.println("\nRunning TestAdmin...");
+        testAdmin.main(args);
+
+        System.out.println("\nRunning TestDoctor...");
+        testDoctor.main(args);
+
+        System.out.println("\nRunning TestPatient...");
+        testPatient.main(args);
+
+        System.out.println("\nRunning TestWorkSchedule...");
+        testWorkSchedule.main(args);
+
+        System.out.println("\nAll tests finished.");
     }
 }
