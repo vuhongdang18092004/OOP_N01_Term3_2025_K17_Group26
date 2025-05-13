@@ -12,12 +12,15 @@
 
 ---
 
-## **Câu 1: Tiêu đề bài tập lớn**
-Phần mềm quản lý lịch khám tại bệnh viện.
+## **PHẦN MỀM QUẢN LÝ PHÒNG KHÁM**
 
 ---
 
-## **Câu 2: Phân tích cơ sở**
+## **BÀI TOÁN GỒM 4 ĐỐI TƯỢNG**
+1. Person (abstract)
+2. Patient
+3. Doctor
+4. Appoinment
 
 ### a. Lớp Person (abstract class)
 **Mục đích:** Lưu thông tin chung cho mọi người trong hệ thống.  
@@ -33,7 +36,7 @@ Phần mềm quản lý lịch khám tại bệnh viện.
 - displayInfo(): Hiển thị thông tin cơ bản
 - updateContactInfo(phone, address): Cập nhật thông tin liên lạc
 
-### b. Lớp Doctor (kế thừa Person)
+### b. Lớp Doctor (extend Person)
 **Mục đích:** Đại diện cho bác sĩ.  
 **Thuộc tính:**
 - specialty: String
@@ -46,7 +49,7 @@ Phần mềm quản lý lịch khám tại bệnh viện.
 - getNextAvailableSlot(): LocalDateTime
 - displaySchedule()
 
-### c. Lớp Patient (kế thừa Person)
+### c. Lớp Patient (extend Person)
 **Mục đích:** Đại diện cho bệnh nhân.  
 **Thuộc tính:**
 - medicalHistory: String
@@ -73,7 +76,10 @@ Phần mềm quản lý lịch khám tại bệnh viện.
 
 ---
 
-## **Câu 3: Cấu trúc folder của Project**
+## **DỰ ÁN ĐƯỢC XÂY DỰNG THEO CẤU TRÚC GỒM:**
+1. Thư mục src: chứa các class
+2. Thư mục test: chứa các file kiểm định
+3. File app.java (nằm trong thư mục src): chứa các hàm main.
 
 ---
 
