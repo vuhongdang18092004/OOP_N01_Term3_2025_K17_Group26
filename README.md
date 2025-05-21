@@ -9,93 +9,30 @@
    *Github: MyHanh23*  
 3. Nguyễn Lệ Thu  
    *Github: nglthu*
+4. Nguyễn Văn Hiếu  
+   *Github: nguyenhieu-class*
+---
+
+## **CHỨC NĂNG QUẢN LÝ XE CỨU THƯƠNG TRONG QUẢN LÝ PHÒNG KHÁM**
 
 ---
 
-## **PHẦN MỀM QUẢN LÝ PHÒNG KHÁM**
+## **HỆ THỐNG GỒM 4 ĐỐI TƯỢNG**
+1. Ambulance
+2. AmbulanceTrip
+3. Extend From User (role: driver)
+4. Extend From Patient (role: patient)
 
 ---
 
-## **BÀI TOÁN GỒM 4 ĐỐI TƯỢNG**
-1. Person (abstract)
-2. Patient
-3. Doctor
-4. Appoinment
-
-### a. Lớp Person (abstract class)
-**Mục đích:** Lưu thông tin chung cho mọi người trong hệ thống.  
-**Thuộc tính:**
-- id: String
-- name: String
-- gender: String
-- dateOfBirth: LocalDate
-- phone: String
-- address: String  
-**Phương thức:**
-- getAge(): Trả về tuổi dựa trên ngày sinh
-- displayInfo(): Hiển thị thông tin cơ bản
-- updateContactInfo(phone, address): Cập nhật thông tin liên lạc
-
-### b. Lớp Doctor (extend Person)
-**Mục đích:** Đại diện cho bác sĩ.  
-**Thuộc tính:**
-- specialty: String
-- workSchedule: List<WorkSchedule>
-- roomId: String
-- email: String (tùy chọn)  
-**Phương thức:**
-- addWorkSchedule(WorkSchedule ws)
-- removeWorkScheduleByDate(LocalDate date)
-- getNextAvailableSlot(): LocalDateTime
-- displaySchedule()
-
-### c. Lớp Patient (extend Person)
-**Mục đích:** Đại diện cho bệnh nhân.  
-**Thuộc tính:**
-- medicalHistory: String
-- appointments: List<Appointment>
-- healthInsuranceId: String
-- emergencyContact: String  
-**Phương thức:**
-- addAppointment(Appointment appt)
-- cancelAppointment(Appointment appt)
-- viewAppointmentHistory()
-
-### d. Lớp Admin
-**Mục đích:** Đại diện tài khoản người quản trị hệ thống.  
-**Thuộc tính:**
-- username: String
-- password: String  
-**Phương thức:**
-- login(username, password): boolean
-- changePassword(String newPassword)
-- manageDoctor()
-- managePatient()
-- createAppointment()
-- manageWorkSchedule()
+## **SƠ ĐỒ CLASS DIAGRAM**
+![Class Diagram](https://github.com/vuhongdang18092004/OOP_N01_Term3_2025_K17_Group6/blob/119dc09bc74e71b76db693e6fdc378fff650d011/class_diagram.png)
 
 ---
 
-## **DỰ ÁN ĐƯỢC XÂY DỰNG THEO CẤU TRÚC GỒM:**
-1. Thư mục src: chứa các class
-2. Thư mục test: chứa các file kiểm định
-3. File app.java (nằm trong thư mục src): chứa các hàm main.
-
+## **SƠ ĐỒ ACTIVITY DIAGRAM**
+![them_phuong_tien_cuu_thuong](https://github.com/vuhongdang18092004/OOP_N01_Term3_2025_K17_Group6/blob/119dc09bc74e71b76db693e6fdc378fff650d011/them_phuong_tien_cuu_thuong.png)
+![tao_chuyen_di](https://github.com/vuhongdang18092004/OOP_N01_Term3_2025_K17_Group6/blob/119dc09bc74e71b76db693e6fdc378fff650d011/tao_chuyen_di.png)
+![ket_thuc_chuyen_di](https://github.com/vuhongdang18092004/OOP_N01_Term3_2025_K17_Group6/blob/119dc09bc74e71b76db693e6fdc378fff650d011/ket_thuc_chuyen_di.png)
 ---
 
-## **Câu 4: Các class đã thực hiện**
-
-1. **Admin.java:** Lớp quản lý tài khoản người quản trị hệ thống.
-2. **Doctor.java:** Lớp đại diện cho bác sĩ.
-3. **Patient.java:** Lớp đại diện cho bệnh nhân.
-
----
-
-## **Câu 5: Kiểm định các class**
-
-1. **testAdmin.java:** Kiểm tra các chức năng của lớp Admin.
-2. **testDoctor.java:** Kiểm tra các chức năng của lớp Doctor.
-3. **testPatient.java:** Kiểm tra các chức năng của lớp Patient.
-4. **testWorkSchedule.java:** Kiểm tra các chức năng của lịch làm việc.
-
----
