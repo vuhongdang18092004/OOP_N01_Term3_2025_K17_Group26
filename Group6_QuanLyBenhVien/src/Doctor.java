@@ -40,12 +40,22 @@ import java.time.LocalDate;
 public class Doctor {
     String fullname;
     int doctorId;
+    String gender;
     String address;
     LocalDate dateOfBirth;
     String phoneNumber;
 
-    Doctor(String name, int id){
+    Doctor(String name, int id, String gender, String add, LocalDate DOB, String phone){
         fullname = name;
         doctorId = id;
+        // gender = gender;
+        address = add;
+        dateOfBirth = DOB;
+        phoneNumber = phone;
+    }
+     Doctor(String name, int id){
+        fullname = name;
+        doctorId = id;
+       
     }
 }

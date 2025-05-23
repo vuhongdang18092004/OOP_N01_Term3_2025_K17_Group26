@@ -2,51 +2,51 @@ import java.util.ArrayList;
 
 public class DoctorList {
 
-    ArrayList<Doctor> st = new ArrayList<Doctor>();
+    ArrayList<Doctor> dt = new ArrayList<Doctor>();
 
     public ArrayList<Doctor> addDoctor(Doctor dt) {
 
-        st.add(dt);
-        return st;
+        dt.add(dt);
+        return dt;
 
     }
 
     public ArrayList<Doctor> getEditDoctor(String fullname, int dotorID) {
 
-        for (int i = 0; i < st.size(); i++) {
+        for (int i = 0; i < dt.size(); i++) {
 
-            if (st.get(i).doctorId == dotorID) {
+            if (dt.get(i).doctorId == dotorID) {
 
                 System.out.print("true");
 
-                st.get(i).fullname = fullname;
+                dt.get(i).fullname = fullname;
             }
 
         }
 
-        return st;
+        return dt;
     }
 
     public ArrayList<Doctor> getDeleteDoctor(int dotorID) {
 
-        for (int i = 0; i < st.size(); i++) {
+        for (int i = 0; i < dt.size(); i++) {
 
-            if (st.get(i).doctorId == dotorID) {
+            if (dt.get(i).doctorId == dotorID) {
 
-                st.remove(i);
+                dt.remove(i);
 
             }
 
         }
 
-        return st;
+        return dt;
     }
 
     public void printDoctorList() {
-        int len = st.size();
+        int len = dt.size();
 
         for (int i = 0; i < len; i++) {
-            System.out.println("Doctor ID: " + st.get(i).doctorId + " Fullnane: " + st.get(i).fullname);
+            System.out.println("Doctor ID: " + dt.get(i).doctorId + " Fullnane: " + dt.get(i).fullname);
 
         }
 
