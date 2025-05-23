@@ -1,57 +1,16 @@
-// public class App {
-//     public static void main(String[] args) throws Exception {
-//     //     // Gọi các test để kiểm tra các chức năng
-//     //     System.out.println("Starting tests...");
-
-//     //     // Gọi các phương thức test của từng lớp
-//     //     System.out.println("\nRunning TestAdmin...");
-//     //     testAdmin.main(args);
-
-//     //     System.out.println("\nRunning TestDoctor...");
-//     //     testDoctor.main(args);
-
-//     //     System.out.println("\nRunning TestPatient...");
-//     //     testPatient.main(args);
-
-//     //     System.out.println("\nRunning TestWorkSchedule...");
-//     //     testWorkSchedule.main(args);
-
-//     //     System.out.println("\nAll tests finished.");
-
-//         // Person p = new Person();
-//         // p.setAddress("Ha Noi");
-//         // p.displayInfo();
-
-
-//         // Time t = new Time();
-//         // t.setHour(6).setMinute(6).setSecond(6);
-//         // System.out.println(t.toString());
-
-
-//         // Recursion r = new Recursion();
-//         // r.factorial(10);
-//         // System.out.println(r.n);
-
-
-//         // testTime testT = new testTime();
-//         // System.out.println(null);
-        
-//     }
-
-
-    
-// }
-
-
-import test.TestUser;
-import test.TestListOfUser;
-
 public class App {
     public static void main(String[] args) {
-        System.out.println("---- Running User Test ----");
-        TestUser.run();
+        new Patient("P001", "Nguyen Van A", "Hanoi");
+        new Patient("P002", "Tran Thi B", "HCMC");
+        new Patient("P003", "Le Van C", "Da Nang");
 
-        System.out.println("\n---- Running ListOfUser Test ----");
-        TestListOfUser.run();
+        System.out.println("Danh sach ban dau:");
+        Patient.showAllPatients();
+
+        System.out.println("\nChinh sua Nguyen Van A:");
+        Patient.editAddressByName("Nguyen Van A", "Hai Phong");
+
+        System.out.println("\nSau khi sua:");
+        Patient.showAllPatients();
     }
 }

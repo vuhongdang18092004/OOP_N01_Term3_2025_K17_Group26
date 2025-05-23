@@ -1,35 +1,53 @@
-
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
-public class Patient extends Person {
-    private String medicalHistory;
-    private List<Appointment> appointments = new ArrayList<>(); 
+public class Patient {
+    private String id;
+    private String name;
+    private String address;
 
-    public Patient(String id, String name, String gender, LocalDate dateOfBirth,
-                   String phone, String address, String medicalHistory) {
-        super(id, name, gender, dateOfBirth, phone, address);
-        this.medicalHistory = medicalHistory;
+    private static ArrayList<Patient> patientList = new ArrayList<>();
+
+    public Patient(String id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        patientList.add(this);
     }
 
-    @Override
     public String getInfo() {
-        return "Patient: " + name + ", Phone: " + phone + ", Address: " + address +
-               ", Medical History: " + medicalHistory;
+        return "Patient ID: " + id + ", Name: " + name + ", Address: " + address;
     }
 
-    public void addAppointment(Appointment appt) {
-        appointments.add(appt);  // Thêm cuộc hẹn vào danh sách
+    public String getName() {
+        return name;
     }
 
-    public void cancelAppointment(Appointment appt) {
-        appointments.remove(appt);  // Xóa cuộc hẹn khỏi danh sách
+    public void editAddress(String newAddress) {
+        this.address = newAddress;
     }
 
-    public void viewAppointmentHistory() {
-        for (Appointment appt : appointments) {
-            System.out.println(appt);  // Hiển thị tất cả các cuộc hẹn
+
+    public static void showAllPatients() {
+        for (Patient p : patientList) {
+            System.out.println(p.getInfo());
         }
+    }
+
+    public static Patient findPatientByName(String name) {
+        for (Patient p : patientList) {
+            if (p.getName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public static boolean editAddressByName(String name, String newAddress) {
+        Patient p = findPatientByName(name);
+        if (p != null) {
+            p.editAddress(newAddress);
+            return true;
+        }
+        return false;
     }
 }
