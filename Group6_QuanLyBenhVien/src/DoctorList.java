@@ -16,40 +16,40 @@ public class DoctorList {
 
     public ArrayList<Doctor> getEditDoctor(String fullname, int dotorID) {
 
-        for (int i = 0; i < dt.size(); i++) {
+        for (int i = 0; i < listDoctor.size(); i++) {
 
-            if (dt.get(i).doctorId == dotorID) {
+            if (listDoctor.get(i).doctorId == dotorID) {
 
                 System.out.print("true");
 
-                dt.get(i).fullname = fullname;
+                listDoctor.get(i).fullname = fullname;
             }
 
         }
 
-        return dt;
+        return listDoctor;
     }
 
     public ArrayList<Doctor> getDeleteDoctor(int dotorID) {
 
-        for (int i = 0; i < dt.size(); i++) {
+        for (int i = 0; i < listDoctor.size(); i++) {
 
-            if (dt.get(i).doctorId == dotorID) {
+            if (listDoctor.get(i).doctorId == dotorID) {
 
-                dt.remove(i);
+                listDoctor.remove(i);
 
             }
 
         }
 
-        return dt;
+        return listDoctor;
     }
 
     public void printDoctorList() {
-        int len = dt.size();
+        int len = listDoctor.size();
 
         for (int i = 0; i < len; i++) {
-            System.out.println("Doctor ID: " + dt.get(i).doctorId + " Fullnane: " + dt.get(i).fullname);
+            System.out.println("Doctor ID: " + listDoctor.get(i).doctorId + " Fullnane: " + listDoctor.get(i).fullname);
 
         }
 
