@@ -7,13 +7,15 @@ public class Doctor extends Person {
     private String officeNumber;
 
     // Constructor của Doctor
-    public Doctor(String id, String name, String gender, LocalDate dateOfBirth, String phone, 
-                  String address, String specialty, WorkSchedule workSchedule, String officeNumber) {
-        super(id, name, gender, dateOfBirth, phone, address); // Gọi constructor của lớp Person
-        this.specialty = specialty;
-        this.workSchedule = workSchedule;
-        this.officeNumber = officeNumber;
-    }
+    // public Doctor(String id, String name, String gender, LocalDate dateOfBirth, String phone, 
+    //               String address, String specialty, WorkSchedule workSchedule, String officeNumber) {
+    //     super(id, name, gender, dateOfBirth, phone, address); // Gọi constructor của lớp Person
+    //     this.specialty = specialty;
+    //     this.workSchedule = workSchedule;
+    //     this.officeNumber = officeNumber;
+    // }
+    
+    
 
     @Override
     public String getInfo() {

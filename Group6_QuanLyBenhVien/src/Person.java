@@ -29,22 +29,77 @@
 import java.time.LocalDate;
 import java.time.Period;
 
-public abstract class Person {
-    protected String id;
-    protected String name;
-    protected String gender;
-    protected LocalDate dateOfBirth;
-    protected String phone;
-    protected String address;
+public class Person {
+    private String id;
+    private String name;
+    private String gender;
+    private LocalDate dateOfBirth;
+    private String phone;
+    private String address;
 
-    public Person(String id, String name, String gender, LocalDate dateOfBirth, String phone, String address) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.phone = phone;
-        this.address = address;
+    // public Person(String id, String name, String gender, LocalDate dateOfBirth, String phone, String address) {
+    //     this.id = id;
+    //     this.name = name;
+    //     this.gender = gender;
+    //     this.dateOfBirth = dateOfBirth;
+    //     this.phone = phone;
+    //     this.address = address;
+    // }
+
+    //Get, set id
+    public String getId() {
+        return id;
     }
+
+    public void setId(String newId) {
+        this.id = newId;
+    }
+
+    //Get, set name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String newName) {
+        this.name = newName;
+    }
+
+    //Get, set gender
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String newGender) {
+        this.gender = newGender;
+    }
+
+    //Get dateOfBirh
+    public LocalDate getdateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setdateOfBirth(LocalDate newdateOfBirth) {
+        this.dateOfBirth = newdateOfBirth;
+    }
+
+    //Get, set phone
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String newPhone) {
+        this.phone = newPhone;
+    }
+    //Get, set address 
+    public String getAddress() {
+        return address;
+    } 
+
+    public void setAddress(String newAddress) {
+        this.address = newAddress;
+    }
+
+
 
     public int getAge() {
         return Period.between(dateOfBirth, LocalDate.now()).getYears();
@@ -65,5 +120,5 @@ public abstract class Person {
     }
 
 
-    public abstract String getInfo();
+    // public abstract String getInfo();
 }
