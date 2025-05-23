@@ -2,12 +2,15 @@ import java.util.ArrayList;
 
 public class DoctorList {
 
-    ArrayList<Doctor> dt = new ArrayList<Doctor>();
+    ArrayList<Doctor> listDoctor = new ArrayList<Doctor>();
 
     public ArrayList<Doctor> addDoctor(Doctor dt) {
 
-        dt.add(dt);
-        return dt;
+        listDoctor.add(dt);
+        
+        return listDoctor;
+
+    
 
     }
 
