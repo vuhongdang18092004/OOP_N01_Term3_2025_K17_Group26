@@ -41,15 +41,9 @@ public class DoctorList {
             return;
         }
 
-        System.out.println("\n=== LIST OF DOCTORS ===");
         for (Doctor d : listDoctor) {
-            System.out.println("ID: " + d.doctorId +
-                    ", Fullname: " + d.fullname +
-                    ", Gender: " + d.gender +
-                    ", Address: " + d.address +
-                    ", Date of birth: " + d.dateOfBirth +
-                    ", Phone nimber: " + d.phoneNumber);
-        }
-        System.out.println("=========================");
+        System.out.println(d.toString());
+        System.out.println("---------------------"); // Dòng ngăn cách giữa các bác sĩ
     }
+}
 }

@@ -21,7 +21,7 @@ public class App {
         DoctorList dtList = new DoctorList();
 
         // Tạo bác sĩ mới
-        Doctor doctor1 = new Doctor("Nguyen Van A", \n 101, "Male", "123 Street A", LocalDate.of(1980, 5, 15), "0123456789");
+        Doctor doctor1 = new Doctor("Nguyen Van A", 101, "Male", "123 Street A", LocalDate.of(1980, 5, 15), "0123456789");
         Doctor doctor2 = new Doctor("Le Thi B", 102, "Female", "456 Street B", LocalDate.of(1985, 8, 20), "0987654321");
 
         // Thêm bác sĩ vào danh sách
