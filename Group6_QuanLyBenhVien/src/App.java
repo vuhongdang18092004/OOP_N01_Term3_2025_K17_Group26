@@ -20,9 +20,9 @@ public class App {
      public static void main(String[] args) {
         DoctorList dtList = new DoctorList();
 
-        // Tạo bác sĩ mới
-        Doctor doctor1 = new Doctor("Nguyen Van A", 101, "Male", "123 Street A", LocalDate.of(1980, 5, 15), "0123456789");
-        Doctor doctor2 = new Doctor("Le Thi B", 102, "Female", "456 Street B", LocalDate.of(1985, 8, 20), "0987654321");
+        //Test thêm bác sĩ
+        Doctor doctor1 = new Doctor("Do Thi My Hanh", 101, "Female", "Ha Nọi", LocalDate.of(2004, 1, 23), "0123456789");
+        Doctor doctor2 = new Doctor("Ha Tien Anh", 102, "Male", "Ha Noi", LocalDate.of(2004, 11, 29), "0987654321");
 
         // Thêm bác sĩ vào danh sách
         dtList.addDoctor(doctor1);
@@ -32,15 +32,16 @@ public class App {
         System.out.println("Danh sách bác sĩ sau khi thêm:");
         dtList.printDoctorList();
 
-        // Sửa thông tin bác sĩ
-        dtList.editDoctor(101, "Nguyen Van A Updated", "Male", "789 Street C", LocalDate.of(1980, 5, 15), "0112233445");
+        // Test sửa thông tin bác sĩ
+        dtList.editDoctor(101, "Do Thi My Hanh", "Male", "40 Ha Noi", LocalDate.of(2004, 1, 23), "0983023029");
 
         System.out.println("\nDanh sách bác sĩ sau khi sửa:");
         dtList.printDoctorList();
 
-        // Xóa bác sĩ theo ID
+        // Xóa bác sĩ có ID 102
         dtList.deleteDoctor(102);
 
+        //In lại danh sách
         System.out.println("\nDanh sách bác sĩ sau khi xóa:");
         dtList.printDoctorList();
     }
