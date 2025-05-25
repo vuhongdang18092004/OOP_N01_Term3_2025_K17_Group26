@@ -53,4 +53,16 @@ public class Doctor {
         dateOfBirth = dob;
         phoneNumber = phone;
     }
+
+
+    @Override
+public String toString() {
+    return "ID: " + doctorId + "\n" +
+           "Name: " + fullname + "\n" +
+           "Gender: " + gender + "\n" +
+           "Address: " + address + "\n" +
+           "Date of Birth: " + dateOfBirth + "\n" +
+           "Phone: " + phoneNumber + "\n";
+}
+
 }
