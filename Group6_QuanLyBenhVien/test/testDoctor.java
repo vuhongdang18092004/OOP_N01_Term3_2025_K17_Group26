@@ -32,60 +32,91 @@
 
 
 
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class testDoctor {
-     ArrayList<Doctor> sl = new ArrayList<Doctor>();
-
-   
-
-    public void testEditDelete() {
-
-        ArrayList<Doctor> sl = new ArrayList<Doctor>();
-        Doctor s1 = new Doctor("Nguyen Thi Lan Anh", 12345);
-        Doctor s2 = new Doctor("Tran Van Minh", 2);
-        Doctor s3 = new Doctor("Nguyen An", 101010);
-
-        sl.add(s1);
-        sl.add(s2);
-        sl.add(s3);
-
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         DoctorList dtList = new DoctorList();
-        dtList.addDoctor(s1);
-        dtList.addDoctor(s2);
-        dtList.addDoctor(s3);
+        int choice;
 
-        // cap nhat thong tin
+        do {
+            System.out.println("\n====== MENU ======");
+            System.out.println("1. Thêm bác sĩ");
+            System.out.println("2. Sửa thông tin bác sĩ");
+            System.out.println("3. Xóa bác sĩ");
+            System.out.println("4. Hiển thị danh sách bác sĩ");
+            System.out.println("5. Thoát");
+            System.out.print("Nhập lựa chọn: ");
+            choice = Integer.parseInt(sc.nextLine());
 
-        System.out.println("Enter doctor ID");
-        Scanner doctorID = new Scanner(System.in);
+            switch (choice) {
+                case 1:
+                    System.out.print("Nhập ID: ");
+                    int id = Integer.parseInt(sc.nextLine());
 
-        int s = doctorID.nextInt();
+                    System.out.print("Nhập họ tên: ");
+                    String name = sc.nextLine();
 
-        System.out.println("Enter doctor fullname");
+                    System.out.print("Nhập giới tính: ");
+                    String gender = sc.nextLine();
 
-        Scanner fullname = new Scanner(System.in); // Create a Scanner object
+                    System.out.print("Nhập địa chỉ: ");
+                    String address = sc.nextLine();
 
-        String newName = fullname.nextLine();
+                    System.out.print("Nhập ngày sinh (yyyy-mm-dd): ");
+                    LocalDate dob = LocalDate.parse(sc.nextLine());
 
-        dtList.getEditDoctor(newName, s);
+                    System.out.print("Nhập số điện thoại: ");
+                    String phone = sc.nextLine();
 
-        dtList.printDoctorList();
+                    Doctor newDoctor = new Doctor(name, id, gender, address, dob, phone);
+                    dtList.addDoctor(newDoctor);
+                    break;
 
-        System.out.print("test xoa:");
+                case 2:
+                    System.out.print("Nhập ID bác sĩ cần sửa: ");
+                    int editId = Integer.parseInt(sc.nextLine());
 
-       
-        System.out.println("Enter doctor ID");
-        Scanner ID = new Scanner(System.in);
+                    System.out.print("Nhập tên mới: ");
+                    String newName = sc.nextLine();
 
-        int studentDel = ID.nextInt();
-        dtList.getDeleteDoctor(studentDel);
-        System.out.print("danh sach sau khi xoa:");
-        dtList.printDoctorList();
-       
+                    System.out.print("Nhập giới tính mới: ");
+                    String newGender = sc.nextLine();
+
+                    System.out.print("Nhập địa chỉ mới: ");
+                    String newAddress = sc.nextLine();
+
+                    System.out.print("Nhập ngày sinh mới (yyyy-mm-dd): ");
+                    LocalDate newDob = LocalDate.parse(sc.nextLine());
+
+                    System.out.print("Nhập số điện thoại mới: ");
+                    String newPhone = sc.nextLine();
+
+                    dtList.editDoctor(editId, newName, newGender, newAddress, newDob, newPhone);
+                    break;
+
+                case 3:
+                    System.out.print("Nhập ID bác sĩ cần xóa: ");
+                    int delId = Integer.parseInt(sc.nextLine());
+                    dtList.deleteDoctor(delId);
+                    break;
+
+                case 4:
+                    dtList.printDoctorList();
+                    break;
+
+                case 5:
+                    System.out.println("Thoát chương trình.");
+                    break;
+
+                default:
+                    System.out.println("Lựa chọn không hợp lệ.");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
     }
-
-   
-
 }

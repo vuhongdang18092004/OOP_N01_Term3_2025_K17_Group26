@@ -1,61 +1,55 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DoctorList {
+    ArrayList<Doctor> listDoctor = new ArrayList<>();
 
-    ArrayList<Doctor> listDoctor = new ArrayList<Doctor>();
-
-    public ArrayList<Doctor> addDoctor(Doctor dt) {
-
+    public void addDoctor(Doctor dt) {
         listDoctor.add(dt);
-        
-        return listDoctor;
-
-    
-
+        System.out.println("Thêm bác sĩ thành công!");
     }
 
-    public ArrayList<Doctor> getEditDoctor(String fullname, int dotorID) {
-
-        for (int i = 0; i < listDoctor.size(); i++) {
-
-            if (listDoctor.get(i).doctorId == dotorID) {
-
-                System.out.print("true");
-
-                listDoctor.get(i).fullname = fullname;
+    public void editDoctor(int doctorID, String fullname, String gender, String address, LocalDate dateOfBirth, String phoneNumber) {
+        for (Doctor d : listDoctor) {
+            if (d.doctorId == doctorID) {
+                d.fullname = fullname;
+                d.gender = gender;
+                d.address = address;
+                d.dateOfBirth = dateOfBirth;
+                d.phoneNumber = phoneNumber;
+                System.out.println("Cập nhật thông tin thành công!");
+                return;
             }
-
         }
-
-        return listDoctor;
+        System.out.println("Không tìm thấy bác sĩ với ID đã nhập.");
     }
 
-    public ArrayList<Doctor> getDeleteDoctor(int dotorID) {
-
+    public void deleteDoctor(int doctorID) {
         for (int i = 0; i < listDoctor.size(); i++) {
-
-            if (listDoctor.get(i).doctorId == dotorID) {
-
+            if (listDoctor.get(i).doctorId == doctorID) {
                 listDoctor.remove(i);
-
+                System.out.println("Xóa bác sĩ thành công!");
+                return;
             }
-
         }
-
-        return listDoctor;
+        System.out.println("Không tìm thấy bác sĩ với ID đã nhập.");
     }
 
     public void printDoctorList() {
-        int len = listDoctor.size();
-
-        for (int i = 0; i < len; i++) {
-            System.out.println("Doctor ID: " + listDoctor.get(i).doctorId + " Fullnane: " + listDoctor.get(i).fullname);
-
+        if (listDoctor.isEmpty()) {
+            System.out.println("Danh sách bác sĩ trống.");
+            return;
         }
 
+        System.out.println("\n=== DANH SÁCH BÁC SĨ ===");
+        for (Doctor d : listDoctor) {
+            System.out.println("ID: " + d.doctorId +
+                    ", Họ tên: " + d.fullname +
+                    ", Giới tính: " + d.gender +
+                    ", Địa chỉ: " + d.address +
+                    ", Ngày sinh: " + d.dateOfBirth +
+                    ", SĐT: " + d.phoneNumber);
+        }
+        System.out.println("=========================");
     }
 }
-
- 
-
- 

@@ -45,17 +45,12 @@ public class Doctor {
     LocalDate dateOfBirth;
     String phoneNumber;
 
-    Doctor(String name, int id, String gender, String add, LocalDate DOB, String phone){
+    public Doctor(String name, int id, String gen, String add, LocalDate dob, String phone) {
         fullname = name;
         doctorId = id;
-        // gender = gender;
+        gender = gen;
         address = add;
-        dateOfBirth = DOB;
+        dateOfBirth = dob;
         phoneNumber = phone;
-    }
-     Doctor(String name, int id){
-        fullname = name;
-        doctorId = id;
-       
     }
 }
