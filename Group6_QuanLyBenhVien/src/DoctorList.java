@@ -6,7 +6,7 @@ public class DoctorList {
 
     public void addDoctor(Doctor dt) {
         listDoctor.add(dt);
-        System.out.println("Thêm bác sĩ thành công!");
+        System.out.println("Doctor added successfully!");
     }
 
     public void editDoctor(int doctorID, String fullname, String gender, String address, LocalDate dateOfBirth, String phoneNumber) {
@@ -17,38 +17,38 @@ public class DoctorList {
                 d.address = address;
                 d.dateOfBirth = dateOfBirth;
                 d.phoneNumber = phoneNumber;
-                System.out.println("Cập nhật thông tin thành công!");
+                System.out.println("Information updated successfully!");
                 return;
             }
         }
-        System.out.println("Không tìm thấy bác sĩ với ID đã nhập.");
+        System.out.println("No doctor found with the entered ID.");
     }
 
     public void deleteDoctor(int doctorID) {
         for (int i = 0; i < listDoctor.size(); i++) {
             if (listDoctor.get(i).doctorId == doctorID) {
                 listDoctor.remove(i);
-                System.out.println("Xóa bác sĩ thành công!");
+                System.out.println("Doctor deleted successfully!");
                 return;
             }
         }
-        System.out.println("Không tìm thấy bác sĩ với ID đã nhập.");
+        System.out.println("No doctor found with the entered ID.");
     }
 
     public void printDoctorList() {
         if (listDoctor.isEmpty()) {
-            System.out.println("Danh sách bác sĩ trống.");
+            System.out.println("The doctor list is empty.");
             return;
         }
 
-        System.out.println("\n=== DANH SÁCH BÁC SĨ ===");
+        System.out.println("\n=== LIST OF DOCTORS ===");
         for (Doctor d : listDoctor) {
             System.out.println("ID: " + d.doctorId +
-                    ", Họ tên: " + d.fullname +
-                    ", Giới tính: " + d.gender +
-                    ", Địa chỉ: " + d.address +
-                    ", Ngày sinh: " + d.dateOfBirth +
-                    ", SĐT: " + d.phoneNumber);
+                    ", Fullname: " + d.fullname +
+                    ", Gender: " + d.gender +
+                    ", Address: " + d.address +
+                    ", Date of birth: " + d.dateOfBirth +
+                    ", Phone nimber: " + d.phoneNumber);
         }
         System.out.println("=========================");
     }
