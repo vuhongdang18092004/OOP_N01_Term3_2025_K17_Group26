@@ -43,32 +43,32 @@ public class testDoctor {
 
         do {
             System.out.println("\n====== MENU ======");
-            System.out.println("1. Thêm bác sĩ");
-            System.out.println("2. Sửa thông tin bác sĩ");
-            System.out.println("3. Xóa bác sĩ");
-            System.out.println("4. Hiển thị danh sách bác sĩ");
-            System.out.println("5. Thoát");
-            System.out.print("Nhập lựa chọn: ");
+            System.out.println("1. Add doctors");
+            System.out.println("2. Edit doctor information");
+            System.out.println("3. Delete doctor");
+            System.out.println("4. Display doctor list");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
             choice = Integer.parseInt(sc.nextLine());
 
             switch (choice) {
                 case 1:
-                    System.out.print("Nhập ID: ");
+                    System.out.print("Enter ID: ");
                     int id = Integer.parseInt(sc.nextLine());
 
-                    System.out.print("Nhập họ tên: ");
+                    System.out.print("Enter fullname: ");
                     String name = sc.nextLine();
 
-                    System.out.print("Nhập giới tính: ");
+                    System.out.print("Enter gender: ");
                     String gender = sc.nextLine();
 
-                    System.out.print("Nhập địa chỉ: ");
+                    System.out.print("Enter address: ");
                     String address = sc.nextLine();
 
-                    System.out.print("Nhập ngày sinh (yyyy-mm-dd): ");
+                    System.out.print("Enter date of birth (yyyy-mm-dd): ");
                     LocalDate dob = LocalDate.parse(sc.nextLine());
 
-                    System.out.print("Nhập số điện thoại: ");
+                    System.out.print("Enter phone number: ");
                     String phone = sc.nextLine();
 
                     Doctor newDoctor = new Doctor(name, id, gender, address, dob, phone);
@@ -76,29 +76,29 @@ public class testDoctor {
                     break;
 
                 case 2:
-                    System.out.print("Nhập ID bác sĩ cần sửa: ");
+                    System.out.print("Enter the ID of the doctor to edit: ");
                     int editId = Integer.parseInt(sc.nextLine());
 
-                    System.out.print("Nhập tên mới: ");
+                    System.out.print("Enter new fullname: ");
                     String newName = sc.nextLine();
 
-                    System.out.print("Nhập giới tính mới: ");
+                    System.out.print("Enter new gender: ");
                     String newGender = sc.nextLine();
 
-                    System.out.print("Nhập địa chỉ mới: ");
+                    System.out.print("Enter new address: ");
                     String newAddress = sc.nextLine();
 
-                    System.out.print("Nhập ngày sinh mới (yyyy-mm-dd): ");
+                    System.out.print("Enter new date of birth (yyyy-mm-dd): ");
                     LocalDate newDob = LocalDate.parse(sc.nextLine());
 
-                    System.out.print("Nhập số điện thoại mới: ");
+                    System.out.print("Enter new phone number: ");
                     String newPhone = sc.nextLine();
 
                     dtList.editDoctor(editId, newName, newGender, newAddress, newDob, newPhone);
                     break;
 
                 case 3:
-                    System.out.print("Nhập ID bác sĩ cần xóa: ");
+                    System.out.print("Enter the ID of the doctor do delete: ");
                     int delId = Integer.parseInt(sc.nextLine());
                     dtList.deleteDoctor(delId);
                     break;
@@ -108,11 +108,11 @@ public class testDoctor {
                     break;
 
                 case 5:
-                    System.out.println("Thoát chương trình.");
+                    System.out.println("Exiting program.");
                     break;
 
                 default:
-                    System.out.println("Lựa chọn không hợp lệ.");
+                    System.out.println("Invalid choice.");
             }
 
         } while (choice != 5);
