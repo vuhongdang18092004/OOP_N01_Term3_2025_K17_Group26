@@ -1,6 +1,6 @@
 package com.project.HospitalManager;
 import java.util.Date;
-// import java.util.List;
+import java.util.*;
 // import com.project.HospitalManager.Appointment;
 
 // Lớp Patient
@@ -50,7 +50,7 @@ public class Patient {
         System.out.println("- Số điện thoại: " + phone);
         System.out.println("- Địa chỉ: " + address);
         System.out.println("- Giới tính: " + gender);
-        System.out.println("- Ngày sinh: " + dob);
+        System.out.println("- Ngày sinh: " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(dob));
         System.out.println("- Số bảo hiểm: " + insuranceNumber);
     }
 

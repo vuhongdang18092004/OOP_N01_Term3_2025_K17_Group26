@@ -1,80 +1,67 @@
+// Lớp Main để kiểm tra
 package com.project.HospitalManager;
+import java.util.*;
+import java.util.Scanner;
 
-import java.time.LocalDateTime;
+public class TestObjectList{
+    public static void main(String[] args) throws Exception {
+        // Tạo đối tượng Doctor
+        Doctor doctor = new Doctor(1, "Nguyễn Văn B", "Nam", "0987654321", "78 Đường Nguyễn Huệ, TP.HCM", new java.text.SimpleDateFormat("dd-MM-yyyy").parse("01-01-1988"), "Nội khoa");
+        System.out.println("Cập nhật thông tin bác sĩ:");
+        doctor.updateInfo("0976543210", "456 Đường XYZ, TP.HCM");
 
-public class TestObjectList {
-    public static void main(String[] args) {
-        try {
-            // Initialize ObjectList for each type
-            ObjectList<Doctor> doctorList = new ObjectList<>();
-            ObjectList<Patient> patientList = new ObjectList<>();
-            ObjectList<Appointment> appointmentList = new ObjectList<>();
+        System.out.println("\n---\n");
 
-            // Test CRUD for Doctor
-            System.out.println("\n=== Testing Doctor CRUD ===");
-            Doctor doctor1 = new Doctor(1, "Dr. Smith", "Male", "1980-01-01", "Cardiology");
-            Doctor doctor2 = new Doctor(2, "Dr. Johnson", "Female", "1975-05-10", "Neurology");
+        // Tạo đối tượng Patient
+        Patient patient = new Patient(1, "Trần Văn A", "0901234567", "45 Đường Lê Lợi, TP.HCM", "Nam", new java.text.SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990"), "123456789");
+        System.out.println("Cập nhật thông tin bệnh nhân:");
+        patient.updateInfo("0912345678", "123 Đường ABC, TP.HCM");
 
-            // Create
-            doctorList.create(doctor1);
-            doctorList.create(doctor2);
+        Scanner scanner = new Scanner(System.in);
 
-            // Read
-            doctorList.read(1).ifPresent(System.out::println);
-
-            // Update
-            Doctor updatedDoctor = new Doctor(1, "Dr. Smith Jr.", "Male", "1980-01-01", "Cardiology");
-            doctorList.update(1, updatedDoctor);
-
-            // Delete
-            doctorList.delete(2);
-
-            // Test CRUD for Patient
-            System.out.println("\n=== Testing Patient CRUD ===");
-            Patient patient1 = new Patient(1, "John Doe", "1234567890", "123 Main St", "Male", "1990-03-15", "INS123");
-            Patient patient2 = new Patient(2, "Jane Roe", "0987654321", "456 Oak St", "Female", "1985-07-20", "INS456");
-
-            // Create
-            patientList.create(patient1);
-            patientList.create(patient2);
-
-            // Read
-            patientList.read(1).ifPresent(System.out::println);
-
-            // Update
-            Patient updatedPatient = new Patient(1, "John Doe", "1234567890", "789 Pine St", "Male", "1990-03-15", "INS123");
-            patientList.update(1, updatedPatient);
-
-            // Delete
-            patientList.delete(2);
-
-            // Test CRUD for Appointment
-            System.out.println("\n=== Testing Appointment CRUD ===");
-            Appointment appointment1 = new Appointment(1, "Checkup", LocalDateTime.now().plusDays(1), "Scheduled", doctor1, patient1);
-            Appointment appointment2 = new Appointment(2, "Follow-up", LocalDateTime.now().plusDays(2), "Scheduled", doctor1, patient1);
-
-            // Associate appointments
-            doctor1.addAppointment(appointment1);
-            patient1.addAppointment(appointment1);
-            doctor1.addAppointment(appointment2);
-            patient1.addAppointment(appointment2);
-
-            // Create
-            appointmentList.create(appointment1);
-            appointmentList.create(appointment2);
-
-            // Read
-            appointmentList.read(1).ifPresent(System.out::println);
-
-            // Update
-            Appointment updatedAppointment = new Appointment(1, "Checkup", LocalDateTime.now().plusDays(3), "Scheduled", doctor1, patient1);
-            appointmentList.update(1, updatedAppointment);
-
-            // Delete
-            appointmentList.delete(2);
-
-        } catch (Exception e) {
-            System.err.println("Error in test execution: " + e.getMessage());
+        // Cập nhật thông tin bác sĩ từ bàn phím
+        System.out.println("\nNhập thông tin mới cho bác sĩ:");
+        String newDoctorPhone;
+        while (true) {
+            System.out.print("Nhập số điện thoại mới: ");
+            newDoctorPhone = scanner.nextLine();
+            if (newDoctorPhone != null && newDoctorPhone.matches("\\d{10}")) break;
+            System.out.println("Lỗi: Số điện thoại phải có đúng 10 chữ số. Vui lòng nhập lại!");
         }
+        String newDoctorAddress;
+        while (true) {
+            System.out.print("Nhập địa chỉ mới: ");
+            newDoctorAddress = scanner.nextLine();
+            if (newDoctorAddress != null && !newDoctorAddress.trim().isEmpty()) break;
+            System.out.println("Lỗi: Địa chỉ không được để trống. Vui lòng nhập lại!");
+        }
+        doctor.updateInfo(newDoctorPhone, newDoctorAddress);
+
+        System.out.println("\n---\n");
+
+        // Cập nhật thông tin bệnh nhân từ bàn phím
+        System.out.println("Nhập thông tin mới cho bệnh nhân:");
+        String newPatientPhone;
+        while (true) {
+            System.out.print("Nhập số điện thoại mới: ");
+            newPatientPhone = scanner.nextLine();
+            if (newPatientPhone != null && newPatientPhone.matches("\\d{10}")) break;
+            System.out.println("Lỗi: Số điện thoại phải có đúng 10 chữ số. Vui lòng nhập lại!");
+        }
+        String newPatientAddress;
+        while (true) {
+            System.out.print("Nhập địa chỉ mới: ");
+            newPatientAddress = scanner.nextLine();
+            if (newPatientAddress != null && !newPatientAddress.trim().isEmpty()) break;
+            System.out.println("Lỗi: Địa chỉ không được để trống. Vui lòng nhập lại!");
+        }
+        patient.updateInfo(newPatientPhone, newPatientAddress);
+
+        // Test trường hợp lỗi
+        System.out.println("\n---\n");
+        System.out.println("Test trường hợp lỗi:");
+        patient.updateInfo("123", ""); // Số điện thoại và địa chỉ không hợp lệ
+
+        scanner.close();
     }
 }

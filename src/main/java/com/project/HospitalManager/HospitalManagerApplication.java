@@ -1,6 +1,7 @@
 package com.project.HospitalManager;
 
 import java.util.Date;
+import java.util.Scanner;
 // import org.springframework.boot.SpringApplication;
 // import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import com.project.HospitalManager.*;
@@ -21,10 +22,32 @@ public class HospitalManagerApplication {
         System.out.println("Cập nhật thông tin bệnh nhân:");
         patient.updateInfo("0912345678", "123 Đường ABC, TP.HCM");
 
-        // Test trường hợp lỗi
-        System.out.println("\n---\n");
-        System.out.println("Test trường hợp lỗi:");
-        patient.updateInfo("123", ""); // Số điện thoại và địa chỉ không hợp lệ	
+        Scanner scanner = new Scanner(System.in);
+
+		// Cập nhật thông tin bác sĩ từ bàn phím
+		System.out.println("\nNhập thông tin mới cho bác sĩ:");
+		System.out.print("Nhập số điện thoại mới: ");
+		String newDoctorPhone = scanner.nextLine();
+		System.out.print("Nhập địa chỉ mới: ");
+		String newDoctorAddress = scanner.nextLine();
+		doctor.updateInfo(newDoctorPhone, newDoctorAddress);
+
+		System.out.println("\n---\n");
+
+		// Cập nhật thông tin bệnh nhân từ bàn phím
+		System.out.println("Nhập thông tin mới cho bệnh nhân:");
+		System.out.print("Nhập số điện thoại mới: ");
+		String newPatientPhone = scanner.nextLine();
+		System.out.print("Nhập địa chỉ mới: ");
+		String newPatientAddress = scanner.nextLine();
+		patient.updateInfo(newPatientPhone, newPatientAddress);
+
+		// Test trường hợp lỗi
+		System.out.println("\n---\n");
+		System.out.println("Test trường hợp lỗi:");
+		patient.updateInfo("123", ""); // Số điện thoại và địa chỉ không hợp lệ
+
+		scanner.close();
 	}
 
 }

@@ -1,20 +1,20 @@
 package com.project.HospitalManager;
 import java.util.Date;
-// import java.util.List;
+// import java.util.*;
 
 // Lớp Doctor
 public class Doctor {
     private int doctorId;
     private String fullName;
+    private String gender;
     private String phone;
     private String address;
-    private String gender;
     private Date dob;
     private String specialization;
     // private List<Appointment> appointments;
 
     // Constructor
-    public Doctor(int doctorId, String fullName, String phone, String address, String gender, Date dob, String specialization) {
+    public Doctor(int doctorId, String fullName,String gender, String phone, String address, Date dob, String specialization) {
         this.doctorId = doctorId;
         this.fullName = fullName;
         this.phone = phone;
@@ -46,10 +46,10 @@ public class Doctor {
         System.out.println("Thông tin bác sĩ sau khi cập nhật:");
         System.out.println("- ID: " + doctorId);
         System.out.println("- Họ tên: " + fullName);
+        System.out.println("- Giới tính: " + gender);
         System.out.println("- Số điện thoại: " + phone);
         System.out.println("- Địa chỉ: " + address);
-        System.out.println("- Giới tính: " + gender);
-        System.out.println("- Ngày sinh: " + dob);
+        System.out.println("- Ngày sinh: " + new java.text.SimpleDateFormat("dd-MM-yyyy").format(dob));
         System.out.println("- Chuyên môn: " + specialization);
     }
 
