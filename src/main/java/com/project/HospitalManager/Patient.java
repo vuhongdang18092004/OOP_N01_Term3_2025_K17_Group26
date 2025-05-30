@@ -1,3 +1,4 @@
+package com.project.HospitalManager;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,7 @@ public class Patient {
     private String fullName;
     private String phone;
     private String address;
-    private String gender;
+    private String gender;  
     private Date dob;
     private String insuranceNumber;
     private List<Appointment> appointments;
