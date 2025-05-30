@@ -1,5 +1,6 @@
+package com.project.HospitalManager;
 import java.util.Date;
-import java.util.List;
+// import java.util.List;
 
 // Lớp Doctor
 public class Doctor {
@@ -10,7 +11,7 @@ public class Doctor {
     private String gender;
     private Date dob;
     private String specialization;
-    private List<Appointment> appointments;
+    // private List<Appointment> appointments;
 
     // Constructor
     public Doctor(int doctorId, String fullName, String phone, String address, String gender, Date dob, String specialization) {

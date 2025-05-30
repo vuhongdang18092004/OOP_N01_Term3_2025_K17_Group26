@@ -1,4 +1,6 @@
+package com.project.HospitalManager;
 import java.util.Date;
+// import com.project.HospitalManager.*;
 
 // Lớp Appointment (giả định để hoàn thiện cấu trúc)
 public class Appointment {
