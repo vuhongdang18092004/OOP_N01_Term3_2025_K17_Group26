@@ -1,4 +1,4 @@
-package review;
+package com.project.HospitalManager;
 
 import java.util.ArrayList;
 import java.util.List;

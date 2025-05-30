@@ -1,4 +1,4 @@
-// package review;
+package com.project.HospitalManager;
 
 public interface Entity {
     int getId();
