@@ -3,7 +3,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class TestAppointment {
     public static void main(String[] args) {
         List<Appointment> appointments = new ArrayList<>();
         appointments.add(new Appointment("BS. An", "Nguyễn Văn A", LocalDate.of(2025, 6, 6), LocalTime.of(9, 30), "P101"));
