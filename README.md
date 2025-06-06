@@ -39,21 +39,25 @@ Phần mềm quản lý bệnh viện.
 
 ---
 ### Miêu tả phương thức: kiemTraLichKhamHomNay
-- **Tên phương thức:** `kiemTraLichKhamHomNay`
+- **Tên phương thức:** `hienThiDanhSachLichKham`
 
-- **Mục đích:**  
-  Kiểm tra xem ngày lịch khám có trùng với ngày hiện tại hay không.
+- **Mục đích:**
+  Hiển thị danh sách các lịch khám hiện có cho người dùng.  
+  Nếu danh sách trống, hiển thị thông báo `"Hiện không có lịch khám nào."`
 
-- **Tham số đầu vào:**  
-  `ngayKham (LocalDate)`: Ngày khám cần kiểm tra.
+- **Tham số đầu vào:**
+  `danhSachLichKham (List<Appointment>)`: Danh sách các lịch khám cần hiển thị.
 
-- **Giá trị trả về:**  
-  `true` nếu ngày khám là hôm nay, ngược lại trả về `false`.
+- **Giá trị trả về:**
+  Không có giá trị trả về (`void`), phương thức chỉ thực hiện in ra màn hình.
 
-- **Mô tả chi tiết:**  
-  Phương thức sẽ lấy ngày hiện tại bằng cách gọi `LocalDate.now()` và so sánh nó với `ngayKham`.  
-  Nếu trùng nhau thì trả về `true`, nghĩa là lịch khám diễn ra ngày hôm nay.
+- **Mô tả chi tiết:**
+  Phương thức sẽ kiểm tra xem danh sách lịch khám có rỗng hay không bằng cách gọi `isEmpty()` trên `danhSachLichKham`.  
+    Nếu danh sách rỗng, in ra thông báo `"Hiện không có lịch khám nào."`
+    Ngược lại, duyệt qua danh sách và in thông tin chi tiết của từng lịch khám bằng vòng lặp `for`.
 
-- **Ý nghĩa:**  
-  Phương thức này là một phần quan trọng trong việc "lọc danh sách lịch khám hôm nay", giúp nhân viên không phải xem toàn bộ danh sách mà chỉ nhìn thấy những lịch khám diễn ra hôm nay. Giúp tiết kiệm thời gian và xử lý công việc hiệu quả hơn.
+- **Ý nghĩa:**
+Phương thức này giúp nhân viên y tế dễ dàng xem được các lịch khám hiện tại mà không cần tìm thủ công trong dữ liệu.  
+Nếu không có lịch nào, hệ thống phản hồi rõ ràng để người dùng biết.  
+Điều này giúp cải thiện trải nghiệm sử dụng phần mềm và tiết kiệm thời gian tra cứu thông tin.
 
