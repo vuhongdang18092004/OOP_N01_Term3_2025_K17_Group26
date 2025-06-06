@@ -55,6 +55,5 @@ Phần mềm quản lý bệnh viện.
   Nếu trùng nhau thì trả về `true`, nghĩa là lịch khám diễn ra ngày hôm nay.
 
 - **Ý nghĩa:**  
-  Phương thức này là một phần quan trọng trong việc "lọc danh sách lịch khám hôm nay",  
-giúp nhân viên không phải xem toàn bộ danh sách mà chỉ nhìn thấy những lịch khám diễn ra hôm nay. Giúp tiết kiệm thời gian và xử lý công việc hiệu quả hơn.
+  Phương thức này là một phần quan trọng trong việc "lọc danh sách lịch khám hôm nay", giúp nhân viên không phải xem toàn bộ danh sách mà chỉ nhìn thấy những lịch khám diễn ra hôm nay. Giúp tiết kiệm thời gian và xử lý công việc hiệu quả hơn.
 
