@@ -57,6 +57,5 @@ Phần mềm quản lý bệnh viện.
     Ngược lại, duyệt qua danh sách và in thông tin chi tiết của từng lịch khám bằng vòng lặp `for`.
 
 - **Ý nghĩa:**
-Phương thức này giúp nhân viên y tế dễ dàng xem được các lịch khám hiện tại mà không cần tìm thủ công trong dữ liệu.  
-Nếu không có lịch nào, hệ thống phản hồi rõ ràng để người dùng biết. Điều này giúp cải thiện trải nghiệm sử dụng phần mềm và tiết kiệm thời gian tra cứu thông tin.
+Phương thức này giúp nhân viên y tế dễ dàng xem được các lịch khám hiện tại mà không cần tìm thủ công trong dữ liệu. Nếu không có lịch nào, hệ thống phản hồi rõ ràng để người dùng biết. Điều này giúp cải thiện trải nghiệm sử dụng phần mềm và tiết kiệm thời gian tra cứu thông tin.
 
