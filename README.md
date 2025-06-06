@@ -58,6 +58,5 @@ Phần mềm quản lý bệnh viện.
 
 - **Ý nghĩa:**
 Phương thức này giúp nhân viên y tế dễ dàng xem được các lịch khám hiện tại mà không cần tìm thủ công trong dữ liệu.  
-Nếu không có lịch nào, hệ thống phản hồi rõ ràng để người dùng biết.  
-Điều này giúp cải thiện trải nghiệm sử dụng phần mềm và tiết kiệm thời gian tra cứu thông tin.
+Nếu không có lịch nào, hệ thống phản hồi rõ ràng để người dùng biết. Điều này giúp cải thiện trải nghiệm sử dụng phần mềm và tiết kiệm thời gian tra cứu thông tin.
 
