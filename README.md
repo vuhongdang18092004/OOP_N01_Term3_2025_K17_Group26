@@ -7,7 +7,9 @@
    *Github: vuhongdang18092004*  
 2. Đỗ Thị Mỹ Hạnh  
    *Github: MyHanh23*  
-3. Nguyễn Lệ Thu  
+3. Nguyễn Văn Hiếu  
+   *Github: NguyenHieu-class* 
+4. Nguyễn Lệ Thu  
    *Github: nglthu*
 
 ---
