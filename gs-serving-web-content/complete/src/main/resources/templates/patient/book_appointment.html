@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Đặt lịch khám</title></head>
+<body>
+<h2>Chọn ca khám</h2>
+<form th:action="@{/appointments/book}" method="post">
+    <input type="hidden" name="patientId" value="1" /> <!-- demo -->
+    <select name="shiftId">
+        <option th:each="s : ${shifts}" th:value="${s.id}"
+                th:text="${s.day + ' - ' + s.startTime + '-' + s.endTime + ' - ' + s.doctor.fullName}"></option>
+    </select>
+    <button type="submit">Đặt lịch</button>
+</form>
+</body>
+</html>

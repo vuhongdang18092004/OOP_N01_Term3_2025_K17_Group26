@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Lịch khám</title></head>
+<body>
+<h2>Lịch khám hôm nay</h2>
+<table border="1">
+    <tr>
+        <th>Bệnh nhân</th><th>Thời gian</th><th>Trạng thái</th><th>Hành động</th>
+    </tr>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.patient.fullName}"></td>
+        <td th:text="${a.doctorShift.day + ' ' + a.doctorShift.startTime}"></td>
+        <td th:text="${a.status}"></td>
+        <td>
+            <form th:action="@{/appointments/update-status}" method="post">
+                <input type="hidden" name="id" th:value="${a.id}" />
+                <select name="status">
+                    <option value="CONFIRMED">Xác nhận</option>
+                    <option value="COMPLETED">Hoàn tất</option>
+                    <option value="CANCELLED">Huỷ</option>
+                </select>
+                <button type="submit">Cập nhật</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

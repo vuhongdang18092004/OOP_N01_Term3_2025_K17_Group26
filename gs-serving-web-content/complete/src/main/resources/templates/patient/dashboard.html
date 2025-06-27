@@ -1,0 +1,121 @@
+<!doctype html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Patient Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <nav
+      class="navbar navbar-light bg-white shadow-sm px-4 py-2 mb-4"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    >
+      <a
+        class="navbar-brand d-flex align-items-center text-decoration-none"
+        th:href="@{/patient/dashboard}"
+      >
+        <div class="brand-logo me-2">
+          <!-- SVG logo bệnh viện -->
+          <svg
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000000"
+            width="32"
+            height="32"
+          >
+            <defs>
+              <style>
+                .cls-1 {
+                  fill: #ff005c;
+                }
+              </style>
+            </defs>
+            <g id="stethoscope">
+              <path
+                d="M24,12a4,4,0,0,0-1,7.86V22a6,6,0,0,1-6,6,6,6,0,0,1-6-6V19h1l1-1V16.41A8,8,0,0,0,18,9V4L17,3H14V5h2V9a6,6,0,0,1-6,6,5.81,5.81,0,0,1-.86-.06A6,6,0,0,1,4,9V5H6V3H3L2,4V9a8.06,8.06,0,0,0,5,7.41V18l1,1H9v3a8,8,0,0,0,16,0V19.86A4,4,0,0,0,24,12Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,24,18Z"
+              />
+              <circle class="cls-1" cx="24" cy="16" r="2" />
+            </g>
+          </svg>
+        </div>
+        <span class="fw-bold fs-5 text-dark">Trang bệnh nhân</span>
+      </a>
+
+      <a th:href="@{/logout}" class="btn btn-outline-danger ms-auto">
+        <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất
+      </a>
+    </nav>
+
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">
+          Xin chào, <span th:text="${patient.fullName}">Người dùng</span>!
+        </h2>
+        <p class="text-muted">
+          <span th:text="${patient.username}">Bạn</span> đã đăng nhập thành
+          công.
+        </p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm mb-4">
+            <div class="card-body text-center">
+              <i class="bi bi-calendar-plus display-4 text-primary mb-3"></i>
+              <h5 class="card-title">Đặt lịch khám</h5>
+              <a
+                th:href="@{/patient/book}"
+                class="btn btn-outline-primary mt-2 w-100"
+                >Đi tới</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm mb-4">
+            <div class="card-body text-center">
+              <i class="bi bi-clock-history display-4 text-success mb-3"></i>
+              <h5 class="card-title">Lịch sử khám</h5>
+              <a
+                th:href="@{/patient/history(patientId=${patient.id})}"
+                class="btn btn-outline-success mt-2 w-100"
+                >Xem lịch sử</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm mb-4">
+            <div class="card-body text-center">
+              <i class="bi bi-person-circle display-4 text-info mb-3"></i>
+              <h5 class="card-title">Thông tin cá nhân</h5>
+              <a
+                th:href="@{/patient/profile}"
+                class="btn btn-outline-info mt-2 w-100"
+                >Xem thông tin</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="text-center mt-4">
+        <a th:href="@{/logout}" class="btn btn-danger">
+          <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất
+        </a>
+      </div> -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

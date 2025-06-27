@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Quản lý ca trực</title></head>
+<body>
+<h2>Danh sách ca trực</h2>
+<table border="1">
+    <tr>
+        <th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Xóa</th>
+    </tr>
+    <tr th:each="s : ${shifts}">
+        <td th:text="${s.day}"></td>
+        <td th:text="${s.startTime + ' - ' + s.endTime}"></td>
+        <td th:text="${s.room.roomNumber}"></td>
+        <td>
+            <a th:href="@{'/doctor/shifts/delete/' + ${s.id} + '?doctorId=' + ${s.doctor.id}}">Xóa</a>
+        </td>
+    </tr>
+</table>
+
+<h3>Thêm ca trực mới</h3>
+<form th:action="@{/doctor/shifts}" method="post" th:object="${newShift}">
+    <input type="hidden" name="doctorId" th:value="${shifts[0]?.doctor?.id}" />
+    
+    <label>Ngày:</label>
+    <select th:field="*{day}">
+        <option th:each="d : ${T(com.yourcompany.yourproject.model.entity.DayOfWeek).values()}"
+                th:value="${d}" th:text="${d}"></option>
+    </select><br>
+
+    <label>Giờ bắt đầu:</label>
+    <input type="time" th:field="*{startTime}" required><br>
+
+    <label>Giờ kết thúc:</label>
+    <input type="time" th:field="*{endTime}" required><br>
+
+    <label>Phòng:</label>
+    <select th:field="*{room}">
+        <option th:each="r : ${rooms}" th:value="${r}" th:text="${r.roomNumber}"></option>
+    </select><br>
+
+    <button type="submit">Thêm</button>
+</form>
+</body>
+</html>
