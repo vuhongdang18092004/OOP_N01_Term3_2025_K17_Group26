@@ -20,7 +20,7 @@ public class AdminController {
     @Autowired
     private DepartmentService departmentService;
 
-    // admin dashboard 
+    // admin dashboard
     @GetMapping("/dashboard")
     public String adminDashboard() {
         return "admin/dashboard";
@@ -36,20 +36,24 @@ public class AdminController {
 
     @PostMapping("/create-doctor")
     public String createDoctor(@ModelAttribute Doctor doctor) {
-        Long deptId = doctor.getDepartment().getId();
-        Department department = adminService.getDepartmentById(deptId);
-        doctor.setDepartment(department);
-
-        adminService.createDoctor(doctor);
-        return "redirect:/admin/doctors?success=true";
+        try {
+            Long deptId = doctor.getDepartment().getId();
+            Department department = adminService.getDepartmentById(deptId);
+            doctor.setDepartment(department);
+            adminService.createDoctor(doctor);
+            return "redirect:/admin/doctors?success=true";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/doctors?error=true";
+        }
     }
 
     // quản lý bác sĩ
     @GetMapping("/doctors")
     public String viewDoctors(@RequestParam(required = false) Long id,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Long departmentId,
-            Model model) {
+                              @RequestParam(required = false) String name,
+                              @RequestParam(required = false) Long departmentId,
+                              Model model) {
         List<Doctor> doctors = adminService.searchDoctors(id, name, departmentId);
         model.addAttribute("doctors", doctors);
         model.addAttribute("departments", departmentService.getAllDepartments());
@@ -61,35 +65,49 @@ public class AdminController {
 
     @GetMapping("/doctors/edit/{id}")
     public String editDoctorForm(@PathVariable Long id, Model model) {
-        Doctor doctor = adminService.getDoctorById(id);
-        if (doctor == null)
+        try {
+            Doctor doctor = adminService.getDoctorById(id);
+            if (doctor == null)
+                return "redirect:/admin/doctors";
+            model.addAttribute("doctor", doctor);
+            model.addAttribute("departments", adminService.getAllDepartments());
+            return "admin/edit-doctor";
+        } catch (Exception e) {
+            e.printStackTrace();
             return "redirect:/admin/doctors";
-        model.addAttribute("doctor", doctor);
-        model.addAttribute("departments", adminService.getAllDepartments());
-        return "admin/edit-doctor";
+        }
     }
 
     @PostMapping("/doctors/edit/{id}")
     public String updateDoctor(@PathVariable Long id, @ModelAttribute Doctor doctor) {
-        Department dept = adminService.getDepartmentById(doctor.getDepartment().getId());
-        doctor.setDepartment(dept);
-        adminService.updateDoctor(id, doctor);
-        return "redirect:/admin/doctors";
+        try {
+            Department dept = adminService.getDepartmentById(doctor.getDepartment().getId());
+            doctor.setDepartment(dept);
+            adminService.updateDoctor(id, doctor);
+            return "redirect:/admin/doctors";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/doctors?error=true";
+        }
     }
 
     @GetMapping("/doctors/delete/{id}")
     public String deleteDoctor(@PathVariable Long id) {
-        adminService.deleteDoctor(id);
-        return "redirect:/admin/doctors";
+        try {
+            adminService.deleteDoctor(id);
+            return "redirect:/admin/doctors";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/doctors?error=true";
+        }
     }
 
     // quản lý phòng
     @GetMapping("/rooms")
     public String manageRooms(@RequestParam(required = false) String id,
-            @RequestParam(required = false) String roomNumber,
-            @RequestParam(required = false) Long departmentId,
-            Model model) {
-
+                              @RequestParam(required = false) String roomNumber,
+                              @RequestParam(required = false) Long departmentId,
+                              Model model) {
         model.addAttribute("rooms", adminService.filterRooms(id, roomNumber, departmentId));
         model.addAttribute("departments", adminService.getAllDepartments());
         model.addAttribute("newRoom", new Room());
@@ -101,33 +119,53 @@ public class AdminController {
 
     @PostMapping("/rooms")
     public String addRoom(@ModelAttribute Room room) {
-        Department department = adminService.getDepartmentById(room.getDepartment().getId());
-        room.setDepartment(department);
-        adminService.saveRoom(room);
-        return "redirect:/admin/rooms";
+        try {
+            Department department = adminService.getDepartmentById(room.getDepartment().getId());
+            room.setDepartment(department);
+            adminService.saveRoom(room);
+            return "redirect:/admin/rooms";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/rooms?error=true";
+        }
     }
 
     @GetMapping("/rooms/delete/{id}")
     public String deleteRoom(@PathVariable Long id) {
-        adminService.deleteRoom(id);
-        return "redirect:/admin/rooms";
+        try {
+            adminService.deleteRoom(id);
+            return "redirect:/admin/rooms";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/rooms?error=true";
+        }
     }
 
     @GetMapping("/rooms/edit/{id}")
     public String editRoomForm(@PathVariable Long id, Model model) {
-        Room room = adminService.getRoomById(id);
-        if (room == null)
+        try {
+            Room room = adminService.getRoomById(id);
+            if (room == null)
+                return "redirect:/admin/rooms";
+            model.addAttribute("room", room);
+            model.addAttribute("departments", adminService.getAllDepartments());
+            return "admin/edit_room";
+        } catch (Exception e) {
+            e.printStackTrace();
             return "redirect:/admin/rooms";
-        model.addAttribute("room", room);
-        model.addAttribute("departments", adminService.getAllDepartments());
-        return "admin/edit_room";
+        }
     }
 
     @PostMapping("/rooms/edit/{id}")
     public String updateRoom(@PathVariable Long id, @ModelAttribute Room updatedRoom) {
-        Department dept = adminService.getDepartmentById(updatedRoom.getDepartment().getId());
-        updatedRoom.setDepartment(dept);
-        adminService.updateRoom(id, updatedRoom);
-        return "redirect:/admin/rooms";
+        try {
+            Department dept = adminService.getDepartmentById(updatedRoom.getDepartment().getId());
+            updatedRoom.setDepartment(dept);
+            adminService.updateRoom(id, updatedRoom);
+            return "redirect:/admin/rooms";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/rooms?error=true";
+        }
     }
 }

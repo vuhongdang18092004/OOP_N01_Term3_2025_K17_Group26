@@ -13,48 +13,60 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    // đặt lịch khám
+    // Hiển thị danh sách ca khám trống để đặt lịch
     @GetMapping("/book")
     public String showAvailableShifts(Model model) {
         model.addAttribute("shifts", appointmentService.getAvailableShifts());
         return "patient/book_appointment";
     }
 
+    // Đặt lịch khám
     @PostMapping("/book")
     public String bookAppointment(@RequestParam Long patientId, @RequestParam Long shiftId) {
-        appointmentService.bookAppointment(patientId, shiftId);
-        return "redirect:/appointments/history?success=true";
+        try {
+            appointmentService.bookAppointment(patientId, shiftId);
+            return "redirect:/appointments/history?success=true";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/appointments/book?error=" + e.getMessage();
+        }
     }
 
-    // xem lịch sử khám của bệnh nhân
+    // Xem lịch sử khám của bệnh nhân
     @GetMapping("/history")
     public String viewPatientAppointments(@RequestParam Long patientId, Model model) {
         model.addAttribute("appointments", appointmentService.getAppointmentsForPatient(patientId));
         return "patient/history";
     }
 
-    // bác sĩ xem lịch hẹn
+    // Bác sĩ xem lịch hẹn
     @GetMapping("/doctor")
     public String viewDoctorAppointments(@RequestParam Long doctorId, Model model) {
         model.addAttribute("appointments", appointmentService.getAppointmentsForDoctor(doctorId));
         return "doctor/appointments";
     }
 
-    // bác sĩ cập nhật trạng thái lịch hẹn
+    // Bác sĩ cập nhật trạng thái lịch hẹn
     @PostMapping("/update-status")
     public String updateStatus(@RequestParam Long id, @RequestParam String status) {
-        appointmentService.updateAppointmentStatus(id, status);
-        return "redirect:/appointments/doctor";
+        try {
+            appointmentService.updateAppointmentStatus(id, status);
+            return "redirect:/appointments/doctor?updated=true";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/appointments/doctor?error=" + e.getMessage();
+        }
     }
 
-    // hủy lịch hẹn
+    // Hủy lịch hẹn
     @PostMapping("/cancel")
     public String cancelAppointment(@RequestParam Long id) {
         try {
             appointmentService.cancelAppointment(id);
-        } catch (RuntimeException e) {
+            return "redirect:/appointments/history?cancelled=true";
+        } catch (Exception e) {
+            e.printStackTrace();
             return "redirect:/appointments/history?error=" + e.getMessage();
         }
-        return "redirect:/appointments/history?cancelled=true";
     }
 }

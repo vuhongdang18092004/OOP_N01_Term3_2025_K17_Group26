@@ -57,8 +57,15 @@ public class DoctorController {
 
     @PostMapping("/appointments/update-status")
     public String updateAppointmentStatus(@RequestParam Long id,
-                                          @RequestParam String status) {
-        appointmentService.updateAppointmentStatus(id, status);
+                                          @RequestParam String status,
+                                          RedirectAttributes redirectAttributes) {
+        try {
+            appointmentService.updateAppointmentStatus(id, status);
+            redirectAttributes.addFlashAttribute("success", "Cập nhật trạng thái thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Lỗi cập nhật trạng thái: " + e.getMessage());
+        }
         return "redirect:/doctor/appointments";
     }
 
@@ -85,23 +92,26 @@ public class DoctorController {
                            @RequestParam("roomId") Long roomId,
                            Authentication authentication,
                            RedirectAttributes redirectAttributes) {
+        try {
+            Doctor doctor = getDoctor(authentication);
+            LocalDate date = LocalDate.parse(dateStr);
+            LocalTime start = LocalTime.parse(startStr);
+            LocalTime end = LocalTime.parse(endStr);
 
-        Doctor doctor = getDoctor(authentication);
-        LocalDate date = LocalDate.parse(dateStr);
-        LocalTime start = LocalTime.parse(startStr);
-        LocalTime end = LocalTime.parse(endStr);
+            Room room = roomRepository.findById(roomId)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy phòng"));
 
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy phòng"));
+            boolean success = doctorShiftService.saveShiftWithRoom(doctor.getId(), date, start, end, room);
 
-        boolean success = doctorShiftService.saveShiftWithRoom(doctor.getId(), date, start, end, room);
-
-        if (!success) {
-            redirectAttributes.addFlashAttribute("error", "Bạn chỉ được đăng ký tối đa 3 ca và không được trùng lặp!");
-        } else {
-            redirectAttributes.addFlashAttribute("success", "Đăng ký ca trực thành công!");
+            if (!success) {
+                redirectAttributes.addFlashAttribute("error", "Bạn chỉ được đăng ký tối đa 3 ca và không được trùng lặp!");
+            } else {
+                redirectAttributes.addFlashAttribute("success", "Đăng ký ca trực thành công!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Lỗi đăng ký ca trực: " + e.getMessage());
         }
-
         return "redirect:/doctor/shifts";
     }
 
@@ -118,22 +128,27 @@ public class DoctorController {
     public String updateProfile(@ModelAttribute("doctor") Doctor formDoctor,
                                 Authentication authentication,
                                 RedirectAttributes redirectAttributes) {
-        Doctor doctor = getDoctor(authentication);
+        try {
+            Doctor doctor = getDoctor(authentication);
 
-        doctor.setUsername(formDoctor.getUsername());
-        doctor.setFullName(formDoctor.getFullName());
+            doctor.setUsername(formDoctor.getUsername());
+            doctor.setFullName(formDoctor.getFullName());
 
-        if (formDoctor.getPassword() != null && !formDoctor.getPassword().isBlank()) {
-            doctor.setPassword(passwordEncoder.encode(formDoctor.getPassword()));
+            if (formDoctor.getPassword() != null && !formDoctor.getPassword().isBlank()) {
+                doctor.setPassword(passwordEncoder.encode(formDoctor.getPassword()));
+            }
+
+            if (formDoctor.getDepartment() != null && formDoctor.getDepartment().getId() != null) {
+                Department dept = departmentRepository.findById(formDoctor.getDepartment().getId()).orElse(null);
+                doctor.setDepartment(dept);
+            }
+
+            doctorRepository.save(doctor);
+            redirectAttributes.addFlashAttribute("success", "Cập nhật hồ sơ thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Lỗi cập nhật hồ sơ: " + e.getMessage());
         }
-
-        if (formDoctor.getDepartment() != null && formDoctor.getDepartment().getId() != null) {
-            Department dept = departmentRepository.findById(formDoctor.getDepartment().getId()).orElse(null);
-            doctor.setDepartment(dept);
-        }
-
-        doctorRepository.save(doctor);
-        redirectAttributes.addFlashAttribute("success", "Cập nhật thành công!");
         return "redirect:/doctor/profile";
     }
 

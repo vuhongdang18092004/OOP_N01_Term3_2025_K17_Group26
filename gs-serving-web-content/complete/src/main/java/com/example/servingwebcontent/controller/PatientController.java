@@ -14,11 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/patient")
@@ -45,8 +42,7 @@ public class PatientController {
     // Dashboard
     @GetMapping("/dashboard")
     public String showDashboard(Model model, Principal principal) {
-        Patient patient = patientRepository.findByUsername(principal.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("Patient not found"));
+        Patient patient = getPatient(principal);
         model.addAttribute("patient", patient);
         return "patient/dashboard";
     }
@@ -81,16 +77,23 @@ public class PatientController {
 
     // Xử lý đặt lịch khám
     @PostMapping("/book")
-    public String bookAppointment(@RequestParam Long patientId, @RequestParam Long shiftId) {
-        appointmentService.bookAppointment(patientId, shiftId);
+    public String bookAppointment(@RequestParam Long patientId,
+                                  @RequestParam Long shiftId,
+                                  RedirectAttributes redirectAttributes) {
+        try {
+            appointmentService.bookAppointment(patientId, shiftId);
+            redirectAttributes.addFlashAttribute("success", "Đặt lịch thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Lỗi đặt lịch: " + e.getMessage());
+        }
         return "redirect:/patient/history?patientId=" + patientId;
     }
 
     // Trang quản lý thông tin cá nhân
     @GetMapping("/profile")
     public String viewProfile(Model model, Principal principal) {
-        Patient patient = patientRepository.findByUsername(principal.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("Patient not found"));
+        Patient patient = getPatient(principal);
         model.addAttribute("patient", patient);
         return "patient/profile";
     }
@@ -98,29 +101,41 @@ public class PatientController {
     // Form chỉnh sửa thông tin cá nhân
     @GetMapping("/profile/edit")
     public String editProfile(Model model, Principal principal) {
-        Patient patient = patientRepository.findByUsername(principal.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("Patient not found"));
+        Patient patient = getPatient(principal);
         model.addAttribute("patient", patient);
         return "patient/edit_profile";
     }
 
     // Xử lý cập nhật thông tin cá nhân
     @PostMapping("/profile/update")
-    public String updateProfile(@ModelAttribute Patient updatedPatient, Principal principal) {
-        Patient existing = patientRepository.findByUsername(principal.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("Patient not found"));
+    public String updateProfile(@ModelAttribute Patient updatedPatient,
+                                Principal principal,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            Patient existing = getPatient(principal);
 
-        existing.setFullName(updatedPatient.getFullName());
-        existing.setEmail(updatedPatient.getEmail());
-        existing.setPhone(updatedPatient.getPhone());
-        existing.setAddress(updatedPatient.getAddress());
-        existing.setUsername(updatedPatient.getUsername());
+            existing.setFullName(updatedPatient.getFullName());
+            existing.setEmail(updatedPatient.getEmail());
+            existing.setPhone(updatedPatient.getPhone());
+            existing.setAddress(updatedPatient.getAddress());
+            existing.setUsername(updatedPatient.getUsername());
 
-        if (updatedPatient.getPassword() != null && !updatedPatient.getPassword().isBlank()) {
-            existing.setPassword(passwordEncoder.encode(updatedPatient.getPassword()));
+            if (updatedPatient.getPassword() != null && !updatedPatient.getPassword().isBlank()) {
+                existing.setPassword(passwordEncoder.encode(updatedPatient.getPassword()));
+            }
+
+            patientRepository.save(existing);
+            redirectAttributes.addFlashAttribute("success", "Cập nhật thông tin thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Lỗi cập nhật: " + e.getMessage());
         }
 
-        patientRepository.save(existing);
         return "redirect:/patient/profile";
+    }
+
+    private Patient getPatient(Principal principal) {
+        return patientRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Patient not found"));
     }
 }
