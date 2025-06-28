@@ -37,7 +37,7 @@ public class AuthController {
 
     @GetMapping("/access-denied")
     public String accessDenied() {
-        return "access-denied"; // tạo view templates/access-denied.html
+        return "access-denied"; 
     }
 
 }

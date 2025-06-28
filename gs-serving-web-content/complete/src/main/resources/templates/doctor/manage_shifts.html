@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Quản lý ca trực</title></head>
 <body>
@@ -41,4 +41,83 @@
     <button type="submit">Thêm</button>
 </form>
 </body>
+</html> -->
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Quản lý ca trực</title>
+    <meta charset="UTF-8" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="container my-4">
+    <h2 class="mb-4">Quản lý ca trực</h2>
+
+    <div
+      th:if="${success}"
+      class="alert alert-success"
+      th:text="${success}"
+    ></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <h3 class="mt-5">Đăng ký ca trực mới</h3>
+    <form th:action="@{/doctor/shifts}" method="post" class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Ngày:</label>
+        <input type="date" name="date" class="form-control" required />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Giờ bắt đầu:</label>
+        <input type="time" name="startTime" class="form-control" required />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Giờ kết thúc:</label>
+        <input type="time" name="endTime" class="form-control" required />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Phòng:</label>
+        <select name="roomId" class="form-select" required>
+          <option
+            th:each="room : ${rooms}"
+            th:value="${room.id}"
+            th:text="'Phòng ' + ${room.roomNumber}"
+          ></option>
+        </select>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Đăng ký ca trực</button>
+        <a th:href="@{/doctor/dashboard}" class="btn btn-secondary ms-2"
+          >Quay lại Dashboard</a
+        >
+      </div>
+    </form>
+
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Ngày</th>
+          <th>Giờ bắt đầu</th>
+          <th>Giờ kết thúc</th>
+          <th>Phòng</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="shift : ${shifts}">
+          <td th:text="${shift.date}"></td>
+          <td th:text="${shift.startTime}"></td>
+          <td th:text="${shift.endTime}"></td>
+          <td
+            th:text="${shift.room != null ? shift.room.roomNumber : 'Chưa chọn'}"
+          ></td>
+          <td th:text="${shift.status}"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Bootstrap 5 JS (tuỳ chọn) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

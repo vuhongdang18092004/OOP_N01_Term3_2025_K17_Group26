@@ -1,6 +1,5 @@
 package com.example.servingwebcontent.controller;
 
-import com.example.servingwebcontent.model.entity.AppointmentStatus;
 import com.example.servingwebcontent.model.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    @Autowired private AppointmentService appointmentService;
+    @Autowired
+    private AppointmentService appointmentService;
 
-    // === ĐẶT LỊCH KHÁM ===
+    // đặt lịch khám
     @GetMapping("/book")
     public String showAvailableShifts(Model model) {
         model.addAttribute("shifts", appointmentService.getAvailableShifts());
@@ -26,28 +26,28 @@ public class AppointmentController {
         return "redirect:/appointments/history?success=true";
     }
 
-    // === XEM LỊCH SỬ KHÁM CỦA BỆNH NHÂN ===
+    // xem lịch sử khám của bệnh nhân
     @GetMapping("/history")
     public String viewPatientAppointments(@RequestParam Long patientId, Model model) {
         model.addAttribute("appointments", appointmentService.getAppointmentsForPatient(patientId));
         return "patient/history";
     }
 
-    // === BÁC SĨ XEM LỊCH KHÁM ===
+    // bác sĩ xem lịch hẹn
     @GetMapping("/doctor")
     public String viewDoctorAppointments(@RequestParam Long doctorId, Model model) {
         model.addAttribute("appointments", appointmentService.getAppointmentsForDoctor(doctorId));
         return "doctor/appointments";
     }
 
-    // === BÁC SĨ CẬP NHẬT TRẠNG THÁI ===
+    // bác sĩ cập nhật trạng thái lịch hẹn
     @PostMapping("/update-status")
-    public String updateStatus(@RequestParam Long id, @RequestParam AppointmentStatus status) {
+    public String updateStatus(@RequestParam Long id, @RequestParam String status) {
         appointmentService.updateAppointmentStatus(id, status);
         return "redirect:/appointments/doctor";
     }
 
-    // === HỦY LỊCH TRONG 24H ===
+    // hủy lịch hẹn
     @PostMapping("/cancel")
     public String cancelAppointment(@RequestParam Long id) {
         try {

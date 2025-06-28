@@ -5,12 +5,10 @@ import jakarta.persistence.*;
 @Entity
 public class Doctor extends User {
 
-    // private String specialization;
 
     @ManyToOne
     private Department department;
 
-    // === Getters & Setters ===
 
     // public String getSpecialization() {
     //     return specialization;

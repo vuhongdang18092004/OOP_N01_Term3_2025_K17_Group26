@@ -28,11 +28,9 @@ public class AuthService {
             throw new IllegalArgumentException("Username already exists");
         }
 
-        // Băm mật khẩu và gán vai trò
         patient.setPassword(passwordEncoder.encode(patient.getPassword()));
         patient.setRole(UserRole.PATIENT);
 
-        // Lưu xuống DB
         patientRepository.save(patient);
 
         System.out.println("Đăng ký thành công cho: " + patient.getUsername());
@@ -49,7 +47,7 @@ public class AuthService {
     }
 
     /**
-     * Tìm bệnh nhân theo username, trả về Optional để xử lý linh hoạt
+     * Tìm bệnh nhân theo username, trả về Optional
      */
     public Optional<Patient> findOptionalByUsername(String username) {
         return patientRepository.findByUsername(username);

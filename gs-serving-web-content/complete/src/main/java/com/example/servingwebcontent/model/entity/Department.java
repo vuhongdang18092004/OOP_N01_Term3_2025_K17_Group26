@@ -11,7 +11,6 @@ public class Department {
 
     private String name;
 
-    // === Getters & Setters ===
 
     public Long getId() {
         return id;

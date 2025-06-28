@@ -20,7 +20,6 @@ public abstract class User {
     @Enumerated(EnumType.STRING)
     protected UserRole role;
 
-    // ✅ Getters & Setters
     public Long getId() {
         return id;
     }

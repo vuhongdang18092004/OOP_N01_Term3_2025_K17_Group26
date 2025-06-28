@@ -9,7 +9,6 @@ public class Patient extends User {
     private String email;
     private String address;
 
-    // === Getters & Setters ===
 
     public String getPhone() {
         return phone;

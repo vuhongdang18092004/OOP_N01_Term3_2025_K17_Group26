@@ -27,7 +27,7 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    // ========== BÁC SĨ ==========
+    // tạo bác sĩ
     public void createDoctor(Doctor doctor) {
         doctor.setPassword(encoder.encode(doctor.getPassword()));
         doctor.setRole(UserRole.DOCTOR);
@@ -46,7 +46,6 @@ public class AdminService {
             // existingDoctor.setEmail(updatedDoctor.getEmail());
             // existingDoctor.setPhone(updatedDoctor.getPhone());
             existingDoctor.setDepartment(updatedDoctor.getDepartment());
-            // Không thay đổi mật khẩu tại đây nếu không có yêu cầu
             doctorRepo.save(existingDoctor);
         }
     }
@@ -71,7 +70,7 @@ public class AdminService {
         }
     }
 
-    // ========== KHOA ==========
+    // khoa
     public List<Department> getAllDepartments() {
         return deptRepo.findAll();
     }
@@ -92,7 +91,7 @@ public class AdminService {
         return deptRepo.findByNameContainingIgnoreCase(name);
     }
 
-    // ========== PHÒNG ==========
+    // phòng
     public List<Room> getAllRooms() {
         return roomRepo.findAll();
     }
@@ -145,8 +144,8 @@ public class AdminService {
                 })
                 .toList();
     }
-
-    // ========== ADMIN ==========
+    
+    // admin
     public Admin findAdminByUsername(String username) {
         return adminRepo.findByUsername(username).orElseThrow();
     }

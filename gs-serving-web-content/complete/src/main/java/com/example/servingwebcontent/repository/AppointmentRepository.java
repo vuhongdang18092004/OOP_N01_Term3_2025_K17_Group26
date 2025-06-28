@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     List<Appointment> findByPatientIdOrderByBookingTimeDesc(Long patientId);
+
     List<Appointment> findByDoctorShiftDoctorIdOrderByBookingTimeDesc(Long doctorId);
-    boolean existsByDoctorShiftIdAndStatusNot(Long shiftId, com.example.servingwebcontent.model.entity.AppointmentStatus status);
+
+    boolean existsByDoctorShiftIdAndStatusNot(Long shiftId, String status);
 }

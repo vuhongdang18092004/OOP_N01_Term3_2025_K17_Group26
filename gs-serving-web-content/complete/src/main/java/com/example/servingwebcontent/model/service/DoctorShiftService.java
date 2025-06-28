@@ -1,21 +1,21 @@
 package com.example.servingwebcontent.model.service;
 
-import com.example.servingwebcontent.model.entity.*;
-import com.example.servingwebcontent.repository.DoctorShiftRepository;
-import com.example.servingwebcontent.repository.RoomRepository;
+import com.example.servingwebcontent.model.entity.Doctor;
+import com.example.servingwebcontent.model.entity.DoctorShift;
+import com.example.servingwebcontent.model.entity.Room;
 import com.example.servingwebcontent.repository.DoctorRepository;
-
+import com.example.servingwebcontent.repository.DoctorShiftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class DoctorShiftService {
+
+    private LocalDate date;
 
     @Autowired
     private DoctorShiftRepository shiftRepo;
@@ -23,104 +23,133 @@ public class DoctorShiftService {
     @Autowired
     private DoctorRepository doctorRepo;
 
-    @Autowired
-    private RoomRepository roomRepo;
-
-    // Lấy danh sách ca trực của bác sĩ
-    public List<DoctorShift> getShiftsByDoctorId(Long doctorId) {
+    /**
+     * Lấy tất cả ca trực của bác sĩ
+     */
+    public List<DoctorShift> getShiftsByDoctor(Long doctorId) {
         return shiftRepo.findByDoctorId(doctorId);
     }
 
-    // Lấy tất cả phòng
-    public List<Room> getAllRooms() {
-        return roomRepo.findAll();
+    /**
+     * Lấy một ca trực theo ID
+     */
+    public DoctorShift getShift(Long shiftId) {
+        return shiftRepo.findById(shiftId).orElseThrow(() -> new RuntimeException("Không tìm thấy ca trực"));
     }
 
-    // Lưu ca trực từ form (DoctorShift) với kiểm tra giới hạn và trùng ca
-    public ShiftAddResult saveShift(Long doctorId, DoctorShift shift) {
+    /**
+     * Kiểm tra ca trực bị trùng
+     */
+    public boolean isDuplicateShift(Long doctorId, LocalDate date, LocalTime start, LocalTime end) {
+        return shiftRepo.findByDoctorId(doctorId).stream()
+                .anyMatch(s -> s.getDate().equals(date) &&
+                        s.getStartTime().equals(start) &&
+                        s.getEndTime().equals(end));
+    }
+
+    /**
+     * Lưu ca trực
+     */
+    public void saveShift(Long doctorId, DoctorShift shift) {
         Doctor doctor = doctorRepo.findById(doctorId).orElseThrow();
-        List<DoctorShift> existingShifts = shiftRepo.findByDoctorId(doctorId);
-
-        boolean isDuplicate = existingShifts.stream().anyMatch(s ->
-            s.getDate().equals(shift.getDate()) &&
-            s.getStartTime().equals(shift.getStartTime()) &&
-            s.getEndTime().equals(shift.getEndTime())
-        );
-
-        if (isDuplicate) return ShiftAddResult.DUPLICATE_SHIFT;
-        if (existingShifts.size() >= 3) return ShiftAddResult.MAX_SHIFT_REACHED;
-
         shift.setDoctor(doctor);
         shiftRepo.save(shift);
-        return ShiftAddResult.SUCCESS;
     }
 
-    // Lưu ca trực từ template (giao diện lịch)
-    public ShiftAddResult saveShiftFromTemplate(Long doctorId, DayOfWeek dayOfWeek, LocalTime start, LocalTime end) {
+    /**
+     * Đánh dấu ca trực hoàn thành
+     */
+    public void completeShift(Long shiftId) {
+        DoctorShift shift = shiftRepo.findById(shiftId).orElseThrow();
+        shift.setStatus("COMPLETED");
+        shiftRepo.save(shift);
+    }
+
+    /**
+     * Lấy tất cả ca trực trống
+     */
+    public List<DoctorShift> getAvailableShifts() {
+        return shiftRepo.findAll().stream()
+                .filter(s -> "AVAILABLE".equals(s.getStatus()))
+                .toList();
+    }
+
+    /**
+     * Lấy ca trực trống theo bác sĩ
+     */
+    public List<DoctorShift> getAvailableShiftsByDoctor(Long doctorId) {
+        return shiftRepo.findByDoctorId(doctorId).stream()
+                .filter(s -> "AVAILABLE".equals(s.getStatus()))
+                .toList();
+    }
+
+    /**
+     * Lấy ca trực trống theo khoa
+     */
+    public List<DoctorShift> getAvailableShiftsByDepartment(Long departmentId) {
+        return shiftRepo.findAll().stream()
+                .filter(s -> "AVAILABLE".equals(s.getStatus()) && 
+                            s.getDoctor().getDepartment().getId().equals(departmentId))
+                .toList();
+    }
+
+    public boolean saveShiftFromDateTime(Long doctorId, LocalDate date, LocalTime start, LocalTime end) {
         Doctor doctor = doctorRepo.findById(doctorId).orElseThrow();
-        List<DoctorShift> existingShifts = shiftRepo.findByDoctorId(doctorId);
 
-        if (existingShifts.size() >= 3)
-            return ShiftAddResult.MAX_SHIFT_REACHED;
+        // Kiểm tra trùng ca
+        boolean duplicate = shiftRepo.findByDoctorId(doctorId).stream()
+                .anyMatch(s -> s.getDate().equals(date) &&
+                        s.getStartTime().equals(start) &&
+                        s.getEndTime().equals(end));
+        if (duplicate) {
+            return false;
+        }
 
-        // Tìm ngày tiếp theo ứng với DayOfWeek
-        LocalDate baseDate = LocalDate.now().with(dayOfWeek);
-        LocalDate date = baseDate.isBefore(LocalDate.now()) ? baseDate.plusWeeks(1) : baseDate;
-
-        boolean duplicate = existingShifts.stream().anyMatch(s ->
-            s.getDate().equals(date) &&
-            s.getStartTime().equals(start) &&
-            s.getEndTime().equals(end)
-        );
-
-        if (duplicate) return ShiftAddResult.DUPLICATE_SHIFT;
-
-        // Tự động chọn phòng đầu tiên của khoa bác sĩ
-        Room room = roomRepo.findFirstByDepartmentId(doctor.getDepartment().getId());
-        if (room == null) return ShiftAddResult.FAILURE;
+        // Kiểm tra số ca tối đa 3
+        long count = shiftRepo.findByDoctorId(doctorId).size();
+        if (count >= 3) {
+            return false;
+        }
 
         DoctorShift shift = new DoctorShift();
         shift.setDoctor(doctor);
         shift.setDate(date);
         shift.setStartTime(start);
         shift.setEndTime(end);
-        shift.setRoom(room);
+        shift.setStatus("AVAILABLE");
 
         shiftRepo.save(shift);
-        return ShiftAddResult.SUCCESS;
+        return true;
     }
 
-    // Xoá ca trực
-    public void deleteShift(Long shiftId) {
-        shiftRepo.deleteById(shiftId);
-    }
+    public boolean saveShiftWithRoom(Long doctorId, LocalDate date, LocalTime start, LocalTime end, Room room) {
+        Doctor doctor = doctorRepo.findById(doctorId).orElseThrow();
 
-    // Lấy tất cả ca trực khả dụng (dành cho đặt lịch)
-    public List<DoctorShift> getAvailableShifts() {
-        return shiftRepo.findAll();
-    }
-
-    // Lấy ca trực theo khoa (qua phòng)
-    public List<DoctorShift> getShiftsByDepartment(Long departmentId) {
-        return shiftRepo.findAll().stream()
-                .filter(shift -> shift.getRoom().getDepartment().getId().equals(departmentId))
-                .collect(Collectors.toList());
-    }
-
-    // Kiểm tra xem bác sĩ có thể thêm ca không
-    public boolean canAddShift(Long doctorId, DayOfWeek dayOfWeek, LocalTime start, LocalTime end) {
-        List<DoctorShift> existing = shiftRepo.findByDoctorId(doctorId);
-
-        if (existing.size() >= 3)
+        // Kiểm tra trùng ca
+        boolean duplicate = shiftRepo.findByDoctorId(doctorId).stream()
+                .anyMatch(s -> s.getDate().equals(date) &&
+                        s.getStartTime().equals(start) &&
+                        s.getEndTime().equals(end));
+        if (duplicate) {
             return false;
+        }
 
-        LocalDate baseDate = LocalDate.now().with(dayOfWeek);
-        final LocalDate date = baseDate.isBefore(LocalDate.now()) ? baseDate.plusWeeks(1) : baseDate;
+        // Kiểm tra số ca tối đa 3
+        long count = shiftRepo.findByDoctorId(doctorId).size();
+        if (count >= 3) {
+            return false;
+        }
 
-        return existing.stream().noneMatch(s ->
-            s.getDate().equals(date) &&
-            s.getStartTime().equals(start) &&
-            s.getEndTime().equals(end)
-        );
+        // Tạo mới ca trực
+        DoctorShift shift = new DoctorShift();
+        shift.setDoctor(doctor);
+        shift.setDate(date);
+        shift.setStartTime(start);
+        shift.setEndTime(end);
+        shift.setRoom(room);
+        shift.setStatus("AVAILABLE");
+
+        shiftRepo.save(shift);
+        return true;
     }
 }

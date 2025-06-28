@@ -14,7 +14,6 @@ public class Room {
     @ManyToOne
     private Department department;
 
-    // === Getters & Setters ===
 
     public Long getId() {
         return id;

@@ -25,7 +25,6 @@
             <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
         </form>
 
-        <!-- Thông báo -->
         <div th:if="${param.error}" class="alert alert-danger mt-3" role="alert">
             Sai tên đăng nhập hoặc mật khẩu
         </div>
@@ -33,7 +32,6 @@
             Bạn đã đăng xuất thành công
         </div>
 
-        <!-- Link đăng ký -->
         <div class="mt-3 text-center">
             <span>Chưa có tài khoản?</span>
             <a th:href="@{/register}" class="text-decoration-none">Đăng ký ngay</a>

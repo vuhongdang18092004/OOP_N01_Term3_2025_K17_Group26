@@ -18,6 +18,10 @@ public class DoctorShift {
     private LocalTime startTime;
     private LocalTime endTime;
 
+    // Trạng thái ca trực
+    @Column(nullable = false)
+    private String status = "AVAILABLE";
+
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
@@ -26,7 +30,6 @@ public class DoctorShift {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    // === Getters & Setters ===
 
     public Long getId() {
         return id;
@@ -58,6 +61,14 @@ public class DoctorShift {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Doctor getDoctor() {

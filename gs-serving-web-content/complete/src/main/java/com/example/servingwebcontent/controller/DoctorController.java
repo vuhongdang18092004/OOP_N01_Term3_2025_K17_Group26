@@ -6,13 +6,14 @@ import com.example.servingwebcontent.model.service.DoctorShiftService;
 import com.example.servingwebcontent.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -22,39 +23,41 @@ public class DoctorController {
 
     @Autowired
     private AppointmentService appointmentService;
+
     @Autowired
     private DoctorShiftService doctorShiftService;
+
     @Autowired
     private DoctorRepository doctorRepository;
+
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private ShiftTemplateRepository shiftTemplateRepo;
-    @Autowired
-    private DoctorShiftRepository shiftRepo;
 
     // Trang chính
     @GetMapping("/dashboard")
     public String doctorDashboard(Model model, Authentication authentication) {
-        Long doctorId = getDoctorId(authentication);
-        model.addAttribute("doctorId", doctorId);
+        Doctor doctor = getDoctor(authentication);
+        model.addAttribute("doctorId", doctor.getId());
         return "doctor/dashboard";
     }
 
     // Lịch hẹn
     @GetMapping("/appointments")
     public String viewAppointments(Authentication authentication, Model model) {
-        Long doctorId = getDoctorId(authentication);
-        model.addAttribute("appointments", appointmentService.getAppointmentsForDoctor(doctorId));
+        Doctor doctor = getDoctor(authentication);
+        model.addAttribute("appointments", appointmentService.getAppointmentsForDoctor(doctor.getId()));
         return "doctor/appointments";
     }
 
     @PostMapping("/appointments/update-status")
     public String updateAppointmentStatus(@RequestParam Long id,
-            @RequestParam AppointmentStatus status,
-            Authentication authentication) {
+                                          @RequestParam String status) {
         appointmentService.updateAppointmentStatus(id, status);
         return "redirect:/doctor/appointments";
     }
@@ -62,41 +65,50 @@ public class DoctorController {
     // Quản lý ca trực
     @GetMapping("/shifts")
     public String viewShifts(Authentication authentication, Model model) {
-        Long doctorId = getDoctorId(authentication);
-        model.addAttribute("shifts", doctorShiftService.getShiftsByDoctorId(doctorId));
+        Doctor doctor = getDoctor(authentication);
+
+        model.addAttribute("shifts", doctorShiftService.getShiftsByDoctor(doctor.getId()));
         model.addAttribute("newShift", new DoctorShift());
-        model.addAttribute("rooms", doctorShiftService.getAllRooms());
+
+        if (doctor.getDepartment() != null) {
+            model.addAttribute("rooms", roomRepository.findByDepartmentId(doctor.getDepartment().getId()));
+        } else {
+            model.addAttribute("rooms", List.of());
+        }
         return "doctor/manage_shifts";
     }
 
     @PostMapping("/shifts")
-    public String addShift(@RequestParam("day") DayOfWeek day,
-            @RequestParam("startTime") String startStr,
-            @RequestParam("endTime") String endStr,
-            Authentication authentication,
-            RedirectAttributes redirectAttributes) {
+    public String addShift(@RequestParam("date") String dateStr,
+                           @RequestParam("startTime") String startStr,
+                           @RequestParam("endTime") String endStr,
+                           @RequestParam("roomId") Long roomId,
+                           Authentication authentication,
+                           RedirectAttributes redirectAttributes) {
 
-        Long doctorId = getDoctorId(authentication);
+        Doctor doctor = getDoctor(authentication);
+        LocalDate date = LocalDate.parse(dateStr);
         LocalTime start = LocalTime.parse(startStr);
         LocalTime end = LocalTime.parse(endStr);
 
-        ShiftAddResult result = doctorShiftService.saveShiftFromTemplate(doctorId, day, start, end);
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy phòng"));
 
-        if (result != ShiftAddResult.SUCCESS) {
+        boolean success = doctorShiftService.saveShiftWithRoom(doctor.getId(), date, start, end, room);
+
+        if (!success) {
             redirectAttributes.addFlashAttribute("error", "Bạn chỉ được đăng ký tối đa 3 ca và không được trùng lặp!");
         } else {
             redirectAttributes.addFlashAttribute("success", "Đăng ký ca trực thành công!");
         }
 
-        return "redirect:/doctor/shifts/select";
+        return "redirect:/doctor/shifts";
     }
 
     // Hồ sơ cá nhân
     @GetMapping("/profile")
     public String viewProfile(Model model, Authentication authentication) {
-        Long doctorId = getDoctorId(authentication);
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy bác sĩ"));
+        Doctor doctor = getDoctor(authentication);
         model.addAttribute("doctor", doctor);
         model.addAttribute("departments", departmentRepository.findAll());
         return "doctor/profile";
@@ -104,11 +116,9 @@ public class DoctorController {
 
     @PostMapping("/profile")
     public String updateProfile(@ModelAttribute("doctor") Doctor formDoctor,
-            Authentication authentication,
-            RedirectAttributes redirectAttributes) {
-        Long doctorId = getDoctorId(authentication);
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy bác sĩ"));
+                                Authentication authentication,
+                                RedirectAttributes redirectAttributes) {
+        Doctor doctor = getDoctor(authentication);
 
         doctor.setUsername(formDoctor.getUsername());
         doctor.setFullName(formDoctor.getFullName());
@@ -127,29 +137,10 @@ public class DoctorController {
         return "redirect:/doctor/profile";
     }
 
-    // Giao diện chọn ca trực từ shift template (nếu dùng)
-    @GetMapping("/shifts/select")
-    public String showShiftSelection(Model model, Authentication auth) {
-        Doctor doctor = getDoctor(auth);
-        Long deptId = doctor.getDepartment().getId();
-
-        List<ShiftTemplate> templates = shiftTemplateRepo.findByDepartmentId(deptId);
-        List<DoctorShift> selected = shiftRepo.findByDoctorId(doctor.getId());
-
-        model.addAttribute("templates", templates);
-        model.addAttribute("selectedShifts", selected);
-        model.addAttribute("selectedShiftCount", selected.size());
-
-        return "doctor/select_shifts";
-    }
-
-    private Long getDoctorId(Authentication authentication) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        return userDetails.getDoctor().getId();
-    }
-
     private Doctor getDoctor(Authentication authentication) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        return userDetails.getDoctor();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        return doctorRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bác sĩ"));
     }
 }

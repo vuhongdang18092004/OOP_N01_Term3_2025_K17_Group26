@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // ✅ Admin cố định
+        // Admin cố định
         if (username.equals("admin")) {
             return User.builder()
                     .username("admin")
@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .build();
         }
 
-        // ✅ Patient
+        // Patient
         Patient patient = patientRepository.findByUsername(username).orElse(null);
         if (patient != null) {
             return new CustomUserDetails(
@@ -44,7 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                     patient);
         }
 
-        // ✅ Doctor
+        // Doctor
         Doctor doctor = doctorRepository.findByUsername(username).orElse(null);
         if (doctor != null) {
             return new CustomUserDetails(

@@ -57,13 +57,13 @@ public class SecurityConfig {
             )
             .rememberMe(remember -> remember
                 .key("mySecretKey")
-                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 ngày
+                .tokenValiditySeconds(7 * 24 * 60 * 60) // thời gian token 7 ngày
                 .userDetailsService(userDetailsService)
-                .rememberMeParameter("remember-me") // nếu form có checkbox, tên này phải trùng
-                .alwaysRemember(true) // tự động remember-me
+                .rememberMeParameter("remember-me")
+                .alwaysRemember(true)
             )
             .exceptionHandling(exception -> exception
-                .accessDeniedPage("/access-denied") // 👈 xử lý lỗi 403 Forbidden đẹp hơn
+                .accessDeniedPage("/access-denied")
             );
 
         return http.build();

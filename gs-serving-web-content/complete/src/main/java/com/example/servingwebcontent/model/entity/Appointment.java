@@ -18,10 +18,8 @@ public class Appointment {
 
     private LocalDateTime bookingTime;
 
-    @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
-
-    // === Getters & Setters ===
+    @Column(nullable = false)
+    private String status;
 
     public Long getId() {
         return id;
@@ -55,11 +53,11 @@ public class Appointment {
         this.bookingTime = bookingTime;
     }
 
-    public AppointmentStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(AppointmentStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

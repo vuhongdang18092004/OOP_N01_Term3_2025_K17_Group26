@@ -20,13 +20,13 @@ public class AdminController {
     @Autowired
     private DepartmentService departmentService;
 
-    // ========== DASHBOARD ==========
+    // admin dashboard 
     @GetMapping("/dashboard")
     public String adminDashboard() {
         return "admin/dashboard";
     }
 
-    // ========== TẠO BÁC SĨ ==========
+    // tạo bác sĩ
     @GetMapping("/create-doctor")
     public String createDoctorForm(Model model) {
         model.addAttribute("doctor", new Doctor());
@@ -44,7 +44,7 @@ public class AdminController {
         return "redirect:/admin/doctors?success=true";
     }
 
-    // ========== QUẢN LÝ BÁC SĨ ==========
+    // quản lý bác sĩ
     @GetMapping("/doctors")
     public String viewDoctors(@RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
@@ -83,7 +83,7 @@ public class AdminController {
         return "redirect:/admin/doctors";
     }
 
-    // ========== QUẢN LÝ PHÒNG ==========
+    // quản lý phòng
     @GetMapping("/rooms")
     public String manageRooms(@RequestParam(required = false) String id,
             @RequestParam(required = false) String roomNumber,
