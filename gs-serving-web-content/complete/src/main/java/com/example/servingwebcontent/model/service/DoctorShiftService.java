@@ -88,8 +88,8 @@ public class DoctorShiftService {
      */
     public List<DoctorShift> getAvailableShiftsByDepartment(Long departmentId) {
         return shiftRepo.findAll().stream()
-                .filter(s -> "AVAILABLE".equals(s.getStatus()) && 
-                            s.getDoctor().getDepartment().getId().equals(departmentId))
+                .filter(s -> "AVAILABLE".equals(s.getStatus()) &&
+                        s.getDoctor().getDepartment().getId().equals(departmentId))
                 .toList();
     }
 
@@ -125,11 +125,11 @@ public class DoctorShiftService {
     public boolean saveShiftWithRoom(Long doctorId, LocalDate date, LocalTime start, LocalTime end, Room room) {
         Doctor doctor = doctorRepo.findById(doctorId).orElseThrow();
 
-        // Kiểm tra trùng ca
+        // Kiểm tra trùng ca (giao nhau)
         boolean duplicate = shiftRepo.findByDoctorId(doctorId).stream()
                 .anyMatch(s -> s.getDate().equals(date) &&
-                        s.getStartTime().equals(start) &&
-                        s.getEndTime().equals(end));
+                        !(end.isBefore(s.getStartTime()) || end.equals(s.getStartTime()) ||
+                                start.isAfter(s.getEndTime()) || start.equals(s.getEndTime())));
         if (duplicate) {
             return false;
         }
@@ -152,4 +152,44 @@ public class DoctorShiftService {
         shiftRepo.save(shift);
         return true;
     }
+
+    public boolean updateShift(Long doctorId, Long shiftId, LocalDate date, LocalTime start, LocalTime end, Room room) {
+        DoctorShift shift = shiftRepo.findById(shiftId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy ca trực"));
+
+        if (!shift.getDoctor().getId().equals(doctorId)) {
+            throw new RuntimeException("Bạn không được phép chỉnh ca trực này");
+        }
+
+        // Kiểm tra trùng lặp với các ca khác (bỏ qua chính ca này)
+        boolean duplicate = shiftRepo.findByDoctorId(doctorId).stream()
+                .filter(s -> !s.getId().equals(shiftId))
+                .anyMatch(s -> s.getDate().equals(date) &&
+                        !(end.isBefore(s.getStartTime()) || end.equals(s.getStartTime()) ||
+                                start.isAfter(s.getEndTime()) || start.equals(s.getEndTime())));
+        if (duplicate) {
+            return false;
+        }
+
+        // Cập nhật dữ liệu
+        shift.setDate(date);
+        shift.setStartTime(start);
+        shift.setEndTime(end);
+        shift.setRoom(room);
+
+        shiftRepo.save(shift);
+        return true;
+    }
+
+    public void deleteShift(Long shiftId) {
+        shiftRepo.deleteById(shiftId);
+    }
+
+    public List<DoctorShift> filterShifts(Long doctorId, LocalDate date, Long roomId, String status) {
+        return shiftRepo.findByDoctorId(doctorId).stream()
+                .filter(s -> date == null || s.getDate().equals(date))
+                .filter(s -> roomId == null || (s.getRoom() != null && s.getRoom().getId().equals(roomId)))
+                .toList();
+    }
+
 }
