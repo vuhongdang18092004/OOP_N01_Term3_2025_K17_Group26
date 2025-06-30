@@ -18,11 +18,6 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    /**
-     * Đăng ký tài khoản mới cho bệnh nhân
-     *
-     * @param patient thông tin bệnh nhân
-     */
     public void registerPatient(Patient patient) {
         if (patientRepository.existsByUsername(patient.getUsername())) {
             throw new IllegalArgumentException("Username already exists");
@@ -36,19 +31,11 @@ public class AuthService {
         System.out.println("Đăng ký thành công cho: " + patient.getUsername());
     }
 
-    /**
-     * Tìm bệnh nhân theo tên đăng nhập (username)
-     * @param username tên đăng nhập
-     * @return Patient nếu tồn tại, nếu không thì ném lỗi
-     */
     public Patient findByUsername(String username) {
         return patientRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Patient not found: " + username));
     }
 
-    /**
-     * Tìm bệnh nhân theo username, trả về Optional
-     */
     public Optional<Patient> findOptionalByUsername(String username) {
         return patientRepository.findByUsername(username);
     }

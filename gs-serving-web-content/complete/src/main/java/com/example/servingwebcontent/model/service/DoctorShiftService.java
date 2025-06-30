@@ -22,24 +22,15 @@ public class DoctorShiftService {
 
     @Autowired
     private DoctorRepository doctorRepo;
-
-    /**
-     * Lấy tất cả ca trực của bác sĩ
-     */
+    
     public List<DoctorShift> getShiftsByDoctor(Long doctorId) {
         return shiftRepo.findByDoctorId(doctorId);
     }
 
-    /**
-     * Lấy một ca trực theo ID
-     */
     public DoctorShift getShift(Long shiftId) {
         return shiftRepo.findById(shiftId).orElseThrow(() -> new RuntimeException("Không tìm thấy ca trực"));
     }
 
-    /**
-     * Kiểm tra ca trực bị trùng
-     */
     public boolean isDuplicateShift(Long doctorId, LocalDate date, LocalTime start, LocalTime end) {
         return shiftRepo.findByDoctorId(doctorId).stream()
                 .anyMatch(s -> s.getDate().equals(date) &&
@@ -47,45 +38,30 @@ public class DoctorShiftService {
                         s.getEndTime().equals(end));
     }
 
-    /**
-     * Lưu ca trực
-     */
     public void saveShift(Long doctorId, DoctorShift shift) {
         Doctor doctor = doctorRepo.findById(doctorId).orElseThrow();
         shift.setDoctor(doctor);
         shiftRepo.save(shift);
     }
 
-    /**
-     * Đánh dấu ca trực hoàn thành
-     */
     public void completeShift(Long shiftId) {
         DoctorShift shift = shiftRepo.findById(shiftId).orElseThrow();
         shift.setStatus("COMPLETED");
         shiftRepo.save(shift);
     }
 
-    /**
-     * Lấy tất cả ca trực trống
-     */
     public List<DoctorShift> getAvailableShifts() {
         return shiftRepo.findAll().stream()
                 .filter(s -> "AVAILABLE".equals(s.getStatus()))
                 .toList();
     }
 
-    /**
-     * Lấy ca trực trống theo bác sĩ
-     */
     public List<DoctorShift> getAvailableShiftsByDoctor(Long doctorId) {
         return shiftRepo.findByDoctorId(doctorId).stream()
                 .filter(s -> "AVAILABLE".equals(s.getStatus()))
                 .toList();
     }
 
-    /**
-     * Lấy ca trực trống theo khoa
-     */
     public List<DoctorShift> getAvailableShiftsByDepartment(Long departmentId) {
         return shiftRepo.findAll().stream()
                 .filter(s -> "AVAILABLE".equals(s.getStatus()) &&
@@ -161,7 +137,7 @@ public class DoctorShiftService {
             throw new RuntimeException("Bạn không được phép chỉnh ca trực này");
         }
 
-        // Kiểm tra trùng lặp với các ca khác (bỏ qua chính ca này)
+        //Kiểm tra trùng lặp với các ca khác (bỏ qua chính ca này)
         boolean duplicate = shiftRepo.findByDoctorId(doctorId).stream()
                 .filter(s -> !s.getId().equals(shiftId))
                 .anyMatch(s -> s.getDate().equals(date) &&
@@ -171,7 +147,7 @@ public class DoctorShiftService {
             return false;
         }
 
-        // Cập nhật dữ liệu
+        //Cập nhật dữ liệu
         shift.setDate(date);
         shift.setStartTime(start);
         shift.setEndTime(end);

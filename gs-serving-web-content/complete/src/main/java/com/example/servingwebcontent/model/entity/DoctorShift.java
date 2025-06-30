@@ -11,14 +11,12 @@ public class DoctorShift {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Ngày trực cụ thể
     @Column(nullable = false)
     private LocalDate date;
 
     private LocalTime startTime;
     private LocalTime endTime;
 
-    // Trạng thái ca trực
     @Column(nullable = false)
     private String status = "AVAILABLE";
 

@@ -24,13 +24,24 @@ public class AdminAppointmentController {
             @RequestParam(required = false) String status,
             Model model) {
 
-        List<Appointment> appointments = appointmentRepo.findAll(); // TODO: Bạn có thể lọc bằng custom query
+        try {
+            List<Appointment> appointments = appointmentRepo.findAll();
 
-        model.addAttribute("appointments", appointments);
-        model.addAttribute("date", date);
-        model.addAttribute("room", room);
-        model.addAttribute("status", status);
+            model.addAttribute("appointments", appointments);
+            model.addAttribute("date", date);
+            model.addAttribute("room", room);
+            model.addAttribute("status", status);
 
-        return "admin/appointments_list";
+            return "admin/appointments_list";
+
+        } catch (Exception e) {
+            // Ghi log nếu cần
+            e.printStackTrace(); // hoặc dùng logger.error("Failed to fetch appointments", e);
+
+            // Gửi thông báo lỗi tới view
+            model.addAttribute("errorMessage", "Có lỗi xảy ra khi tải danh sách lịch hẹn.");
+            return "admin/appointments_list"; // hoặc trả về một trang lỗi khác nếu cần
+        }
     }
+
 }

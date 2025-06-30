@@ -37,31 +37,40 @@ public class AppointmentController {
             Authentication authentication,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             Model model) {
+        try {
+            Patient patient = getPatient(authentication);
+            List<Appointment> appointments = (date != null)
+                    ? appointmentService.getAppointmentsForPatientByDate(patient.getId(), date)
+                    : appointmentService.getAppointmentsForPatient(patient.getId());
 
-        Patient patient = getPatient(authentication);
-        List<Appointment> appointments = (date != null)
-                ? appointmentService.getAppointmentsForPatientByDate(patient.getId(), date)
-                : appointmentService.getAppointmentsForPatient(patient.getId());
+            appointments.sort(Comparator.comparing(a -> {
+                switch (a.getStatus()) {
+                    case "PENDING": return 0;
+                    case "COMPLETE": return 1;
+                    case "CANCELLED": return 2;
+                    default: return 99;
+                }
+            }));
 
-        appointments.sort(Comparator.comparing(a -> {
-            switch (a.getStatus()) {
-                case "PENDING": return 0;
-                case "COMPLETE": return 1;
-                case "CANCELLED": return 2;
-                default: return 99;
-            }
-        }));
-
-        model.addAttribute("appointments", appointments);
-        model.addAttribute("selectedDate", date);
-        return "patient/history";
+            model.addAttribute("appointments", appointments);
+            model.addAttribute("selectedDate", date);
+            return "patient/history";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi tải lịch sử khám bệnh: " + e.getMessage());
+            return "patient/history";
+        }
     }
 
     // Huỷ lịch
     @PostMapping("/cancel")
-    public String cancelAppointment(@RequestParam Long id) {
-        appointmentService.cancelAppointment(id);
-        return "redirect:/appointments/history?cancelled=true";
+    public String cancelAppointment(@RequestParam Long id, Model model) {
+        try {
+            appointmentService.cancelAppointment(id);
+            return "redirect:/appointments/history?cancelled=true";
+        } catch (Exception e) {
+            model.addAttribute("error", "Không thể huỷ lịch hẹn: " + e.getMessage());
+            return "patient/history";
+        }
     }
 
     // Lịch của bác sĩ
@@ -70,18 +79,22 @@ public class AppointmentController {
             Authentication authentication,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             Model model) {
+        try {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            Doctor doctor = doctorRepository.findByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("Doctor not found"));
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Doctor doctor = doctorRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("Doctor not found"));
+            List<Appointment> appointments = (date != null)
+                    ? appointmentService.getAppointmentsForDoctorByDate(doctor.getId(), date)
+                    : appointmentService.getAppointmentsForDoctor(doctor.getId());
 
-        List<Appointment> appointments = (date != null)
-                ? appointmentService.getAppointmentsForDoctorByDate(doctor.getId(), date)
-                : appointmentService.getAppointmentsForDoctor(doctor.getId());
-
-        model.addAttribute("appointments", appointments);
-        model.addAttribute("selectedDate", date);
-        return "doctor/appointments";
+            model.addAttribute("appointments", appointments);
+            model.addAttribute("selectedDate", date);
+            return "doctor/appointments";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi tải lịch hẹn của bác sĩ: " + e.getMessage());
+            return "doctor/appointments";
+        }
     }
 
     private Patient getPatient(Authentication authentication) {

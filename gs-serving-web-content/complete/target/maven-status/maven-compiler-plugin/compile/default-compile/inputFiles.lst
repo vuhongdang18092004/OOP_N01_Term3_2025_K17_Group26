@@ -1,5 +1,7 @@
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\config\SecurityConfig.java
+C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\controller\AdminAppointmentController.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\controller\AdminController.java
+C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\controller\AdminPatientController.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\controller\AppointmentController.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\controller\AuthController.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\controller\DepartmentController.java
@@ -15,7 +17,6 @@ C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\com
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\model\entity\DoctorShift.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\model\entity\Patient.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\model\entity\Room.java
-C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\model\entity\ShiftAddResult.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\model\entity\User.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\model\entity\UserRole.java
 C:\Users\DELL\Downloads\OOP_N01_Term3_2025_K17_Group6\gs-serving-web-content\complete\src\main\java\com\example\servingwebcontent\model\service\AdminService.java

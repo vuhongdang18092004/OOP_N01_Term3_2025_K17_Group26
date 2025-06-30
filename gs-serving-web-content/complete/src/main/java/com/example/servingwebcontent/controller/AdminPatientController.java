@@ -18,16 +18,20 @@ public class AdminPatientController {
 
     @GetMapping
     public String listPatients(@RequestParam(required = false) String keyword, Model model) {
-        List<Patient> patients;
-        if (keyword != null && !keyword.isEmpty()) {
-            patients = patientRepo.findByFullNameContainingIgnoreCaseOrPhoneContainingIgnoreCaseOrEmailContainingIgnoreCaseOrAddressContainingIgnoreCase(
-                    keyword, keyword, keyword, keyword
-            );
-        } else {
-            patients = patientRepo.findAll();
+        try {
+            List<Patient> patients;
+            if (keyword != null && !keyword.isEmpty()) {
+                patients = patientRepo.findByFullNameContainingIgnoreCaseOrPhoneContainingIgnoreCaseOrEmailContainingIgnoreCaseOrAddressContainingIgnoreCase(
+                        keyword, keyword, keyword, keyword
+                );
+            } else {
+                patients = patientRepo.findAll();
+            }
+            model.addAttribute("patients", patients);
+            model.addAttribute("keyword", keyword);
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi tải danh sách bệnh nhân: " + e.getMessage());
         }
-        model.addAttribute("patients", patients);
-        model.addAttribute("keyword", keyword);
         return "admin/patients_list";
     }
 }

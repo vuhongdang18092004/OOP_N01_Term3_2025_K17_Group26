@@ -13,7 +13,6 @@ com\example\servingwebcontent\model\service\AdminService.class
 com\example\servingwebcontent\model\entity\Doctor.class
 com\example\servingwebcontent\repository\RoomRepository.class
 com\example\servingwebcontent\controller\AdminController.class
-com\example\servingwebcontent\model\entity\ShiftAddResult.class
 com\example\servingwebcontent\model\entity\UserRole.class
 com\example\servingwebcontent\model\service\DoctorService.class
 com\example\servingwebcontent\repository\PatientRepository.class

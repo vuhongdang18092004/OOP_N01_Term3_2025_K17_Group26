@@ -35,35 +35,51 @@ public class DoctorShiftController {
     // Lưu mới hoặc chỉnh sửa
     @PostMapping("/doctor/{doctorId}/save")
     public String save(@PathVariable Long doctorId, @ModelAttribute DoctorShift shift, Model model) {
-        boolean isDuplicate = shiftService.isDuplicateShift(
-                doctorId,
-                shift.getDate(),
-                shift.getStartTime(),
-                shift.getEndTime()
-        );
-        if (isDuplicate) {
-            model.addAttribute("error", "Ca trực đã tồn tại.");
+        try {
+            boolean isDuplicate = shiftService.isDuplicateShift(
+                    doctorId,
+                    shift.getDate(),
+                    shift.getStartTime(),
+                    shift.getEndTime()
+            );
+            if (isDuplicate) {
+                model.addAttribute("error", "Ca trực đã tồn tại.");
+                model.addAttribute("doctorId", doctorId);
+                return "shifts/form";
+            }
+            shiftService.saveShift(doctorId, shift);
+            return "redirect:/shifts/doctor/" + doctorId;
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi lưu ca trực: " + e.getMessage());
             model.addAttribute("doctorId", doctorId);
             return "shifts/form";
         }
-        shiftService.saveShift(doctorId, shift);
-        return "redirect:/shifts/doctor/" + doctorId;
     }
 
     // Form chỉnh sửa
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Long id, Model model) {
-        DoctorShift shift = shiftService.getShift(id);
-        model.addAttribute("shift", shift);
-        model.addAttribute("doctorId", shift.getDoctor().getId());
-        return "shifts/form";
+        try {
+            DoctorShift shift = shiftService.getShift(id);
+            model.addAttribute("shift", shift);
+            model.addAttribute("doctorId", shift.getDoctor().getId());
+            return "shifts/form";
+        } catch (Exception e) {
+            model.addAttribute("error", "Không tìm thấy ca trực: " + e.getMessage());
+            return "shifts/list";
+        }
     }
 
     // Xác nhận hoàn thành
     @PostMapping("/{id}/complete")
-    public String complete(@PathVariable Long id) {
-        DoctorShift shift = shiftService.getShift(id);
-        shiftService.completeShift(id);
-        return "redirect:/shifts/doctor/" + shift.getDoctor().getId();
+    public String complete(@PathVariable Long id, Model model) {
+        try {
+            DoctorShift shift = shiftService.getShift(id);
+            shiftService.completeShift(id);
+            return "redirect:/shifts/doctor/" + shift.getDoctor().getId();
+        } catch (Exception e) {
+            model.addAttribute("error", "Không thể hoàn thành ca trực: " + e.getMessage());
+            return "shifts/list";
+        }
     }
 }

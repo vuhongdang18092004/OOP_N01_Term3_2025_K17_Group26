@@ -10,20 +10,15 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    // Lịch sử đặt của bệnh nhân
     List<Appointment> findByPatientIdOrderByBookingTimeDesc(Long patientId);
 
     List<Appointment> findByPatientIdAndDoctorShiftDateOrderByBookingTimeDesc(Long patientId, LocalDate date);
 
-    // Lịch khám của bác sĩ
     List<Appointment> findByDoctorShiftDoctorIdOrderByBookingTimeDesc(Long doctorId);
 
     List<Appointment> findByDoctorShiftDoctorIdAndDoctorShiftDateOrderByBookingTimeDesc(Long doctorId, LocalDate date);
-
-    // Kiểm tra ca trực đã được đặt chưa
     boolean existsByDoctorShiftIdAndStatusNot(Long shiftId, String status);
 
-    // Lịch hẹn cho Admin: lọc theo ngày, phòng, trạng thái
     @Query("""
         SELECT a FROM Appointment a
         WHERE (:date IS NULL OR a.doctorShift.date = :date)

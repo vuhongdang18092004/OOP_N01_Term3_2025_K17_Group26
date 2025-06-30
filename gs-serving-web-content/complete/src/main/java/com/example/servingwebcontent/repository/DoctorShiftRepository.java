@@ -21,13 +21,10 @@ public interface DoctorShiftRepository extends JpaRepository<DoctorShift, Long> 
             java.time.LocalTime startTime,
             java.time.LocalTime endTime);
 
-    // Các ca khám trống (status = 'AVAILABLE')
     List<DoctorShift> findByStatus(String status);
 
-    // Ca trống theo bác sĩ
     List<DoctorShift> findByDoctorIdAndStatus(Long doctorId, String status);
 
-    // Ca trống theo khoa
     @Query("SELECT s FROM DoctorShift s WHERE s.doctor.department.id = :deptId AND s.status = :status")
     List<DoctorShift> findByDepartmentAndStatus(@Param("deptId") Long departmentId, @Param("status") String status);
 }

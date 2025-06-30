@@ -38,7 +38,7 @@ public class DepartmentService {
                 Optional<Department> optional = departmentRepo.findById(id);
                 return optional.map(List::of).orElse(List.of());
             } catch (NumberFormatException e) {
-                return List.of(); // Không tìm thấy nếu id không hợp lệ
+                return List.of(); 
             }
         } else if (name != null && !name.isBlank()) {
             return departmentRepo.findByNameContainingIgnoreCase(name);
