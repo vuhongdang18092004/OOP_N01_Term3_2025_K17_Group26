@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+<div class="d-flex">
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <div class="flex-fill p-3">
+        <h2>Thông tin cá nhân</h2>
+        <form th:action="@{/medical/profile}" method="post" th:object="${medicalStaff}" class="needs-validation" novalidate>
+            <input type="hidden" th:field="*{idMedicalStaff}" />
+            <div class="mb-3">
+                <label class="form-label">Họ tên</label>
+                <input type="text" class="form-control" th:field="*{name}" required/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Số điện thoại</label>
+                <input type="text" class="form-control" th:field="*{phone}" required/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" th:field="*{email}" required/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngày sinh</label>
+                <input type="text" class="form-control" th:field="*{dateOfBirth}" required/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Số giấy phép</label>
+                <input type="text" class="form-control" th:field="*{licenseNumber}" required/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Chuyên môn</label>
+                <input type="text" class="form-control" th:field="*{specialization}" required/>
+            </div>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+    </div>
+</div>
+<div th:replace="~{layout/footer :: footer}"></div>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

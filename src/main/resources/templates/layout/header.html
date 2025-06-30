@@ -1,0 +1,9 @@
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/}">Ambulance</a>
+        <div class="ms-auto" th:if="${session.loggedInUser != null}">
+            <span class="me-3">Xin chào, <span th:text="${session.loggedInUser.nameDisplay}">User</span></span>
+            <a class="btn btn-outline-secondary btn-sm" th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
+</header>
