@@ -40,8 +40,11 @@ public class AppointmentService {
         DoctorShift shift = shiftRepo.findById(shiftId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy ca trực có ID: " + shiftId));
 
-        boolean exists = appointmentRepo.existsByDoctorShiftIdAndStatusNot(
-                shiftId, "CANCELLED");
+        if (!"AVAILABLE".equalsIgnoreCase(shift.getStatus())) {
+            throw new RuntimeException("Ca trực này không khả dụng.");
+        }
+
+        boolean exists = appointmentRepo.existsByDoctorShiftIdAndStatusNot(shiftId, "CANCELLED");
         if (exists) {
             throw new RuntimeException("Ca trực này đã được đặt trước đó.");
         }
@@ -51,12 +54,18 @@ public class AppointmentService {
         appointment.setDoctorShift(shift);
         appointment.setStatus("PENDING");
         appointment.setBookingTime(LocalDateTime.now());
-
         appointmentRepo.save(appointment);
+
+        shift.setStatus("PENDING");
+        shiftRepo.save(shift);
     }
 
     public List<Appointment> getAppointmentsForPatient(Long patientId) {
         return appointmentRepo.findByPatientIdOrderByBookingTimeDesc(patientId);
+    }
+
+    public List<Appointment> getAppointmentsForPatientByDate(Long patientId, LocalDate date) {
+        return appointmentRepo.findByPatientIdAndDoctorShiftDateOrderByBookingTimeDesc(patientId, date);
     }
 
     public List<Appointment> getAppointmentsForDoctor(Long doctorId) {
@@ -65,19 +74,34 @@ public class AppointmentService {
 
     @Transactional
     public void updateAppointmentStatus(Long appointmentId, String status) {
-        Appointment a = appointmentRepo.findById(appointmentId)
+        Appointment appointment = appointmentRepo.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch hẹn có ID: " + appointmentId));
-        a.setStatus(status);
+        appointment.setStatus(status);
+
+        if ("COMPLETE".equalsIgnoreCase(status)) {
+            DoctorShift shift = appointment.getDoctorShift();
+            shift.setStatus("COMPLETE");
+            shiftRepo.save(shift);
+        }
+        appointmentRepo.save(appointment);
     }
 
     @Transactional
-    public void cancelAppointment(Long appointmentId) {
+    public Long cancelAppointment(Long appointmentId) {
         Appointment a = appointmentRepo.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch hẹn có ID: " + appointmentId));
-        if (a.getBookingTime().plusHours(24).isAfter(LocalDateTime.now())) {
-            a.setStatus("CANCELLED");
-        } else {
-            throw new RuntimeException("Không thể hủy lịch hẹn vì đã quá thời gian cho phép.");
-        }
+
+        DoctorShift shift = a.getDoctorShift();
+        shift.setStatus("AVAILABLE");
+        shiftRepo.save(shift);
+
+        appointmentRepo.delete(a);
+
+        return a.getPatient().getId();
     }
+
+    public List<Appointment> getAppointmentsForDoctorByDate(Long doctorId, LocalDate date) {
+    return appointmentRepo.findByDoctorShiftDoctorIdAndDoctorShiftDateOrderByBookingTimeDesc(doctorId, date);
+}
+
 }
