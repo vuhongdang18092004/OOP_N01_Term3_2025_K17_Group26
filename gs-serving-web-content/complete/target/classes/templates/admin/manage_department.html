@@ -1,0 +1,254 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quản lý Khoa</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 250px;
+        min-height: 100vh;
+        background-color: #ffffff;
+        border-right: 1px solid #dee2e6;
+      }
+      .sidebar .nav-link {
+        color: #333;
+        font-weight: 500;
+      }
+      .sidebar .nav-link:hover,
+      .sidebar .nav-link.active {
+        background-color: #f0f0f0;
+        color: #0d6efd;
+      }
+      .main-content {
+        flex: 1;
+        padding: 1.5rem;
+        background-color: #f8f9fa;
+      }
+      .brand-logo svg {
+        width: 32px;
+        height: 32px;
+      }
+      #backToTop {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 9999;
+        display: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #0d6efd;
+        color: white;
+        font-size: 24px;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+      #backToTop:hover {
+        background-color: #0b5ed7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d-flex">
+      <!-- Sidebar -->
+      <div class="sidebar d-flex flex-column p-3 shadow-sm">
+        <a
+          th:href="@{/admin/dashboard}"
+          class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none"
+        >
+          <i class="bi bi-speedometer2 fs-4 text-primary me-2"></i>
+          <span class="fs-5 fw-bold">Admin Panel</span>
+        </a>
+        <hr />
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li>
+            <a th:href="@{/admin/dashboard}" class="nav-link"
+              ><i class="bi bi-house-door me-2"></i>Dashboard</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/admin/doctors}" class="nav-link"
+              ><i class="bi bi-person me-2"></i>Quản lý Bác sĩ</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/admin/departments}" class="nav-link active"
+              ><i class="bi bi-building me-2"></i>Quản lý Khoa</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/admin/rooms}" class="nav-link"
+              ><i class="bi bi-door-open me-2"></i>Quản lý Phòng</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/admin/patients}" class="nav-link"
+              ><i class="bi bi-people me-2"></i>Quản lý Bệnh nhân</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/admin/appointments}" class="nav-link"
+              ><i class="bi bi-calendar-check me-2"></i>Lịch Khám Bệnh</a
+            >
+          </li>
+        </ul>
+        <hr />
+        <a th:href="@{/logout}" class="btn btn-outline-danger w-100">
+          <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
+        </a>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content container-fluid">
+        <!-- Thêm khoa mới -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h4 class="card-title text-success mb-3">
+              <i class="bi bi-plus-circle me-1"></i> Thêm khoa mới
+            </h4>
+            <form
+              th:action="@{/admin/departments}"
+              method="post"
+              th:object="${newDepartment}"
+            >
+              <div class="mb-3">
+                <label class="form-label">Tên khoa</label>
+                <input
+                  type="text"
+                  th:field="*{name}"
+                  class="form-control"
+                  required
+                  placeholder="Nhập tên khoa mới"
+                />
+              </div>
+              <button type="submit" class="btn btn-success">
+                <i class="bi bi-check2-circle me-1"></i>Thêm khoa
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Form lọc -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="card-title text-primary">
+              <i class="bi bi-funnel me-1"></i> Tìm kiếm khoa
+            </h5>
+            <form
+              method="get"
+              th:action="@{/admin/departments}"
+              class="row g-3"
+            >
+              <div class="col-md-5">
+                <input
+                  type="text"
+                  name="id"
+                  class="form-control"
+                  placeholder="Tìm theo ID"
+                  th:value="${searchId}"
+                />
+              </div>
+              <div class="col-md-5">
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  placeholder="Tìm theo tên"
+                  th:value="${searchName}"
+                />
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary w-100">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Danh sách khoa -->
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h3 class="card-title text-primary mb-4 text-center">
+              <i class="bi bi-building me-1"></i>Danh sách khoa
+            </h3>
+
+            <table class="table table-bordered table-hover">
+              <thead class="table-secondary">
+                <tr>
+                  <th>ID</th>
+                  <th>Tên khoa</th>
+                  <th class="text-center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="d : ${departments}">
+                  <td th:text="${d.id}"></td>
+                  <td th:text="${d.name}"></td>
+                  <td class="text-center">
+                    <a
+                      th:href="@{'/admin/departments/edit/' + ${d.id}}"
+                      class="btn btn-sm btn-warning me-2"
+                    >
+                      <i class="bi bi-pencil-square"></i> Sửa
+                    </a>
+                    <a
+                      th:href="@{'/admin/departments/delete/' + ${d.id}}"
+                      class="btn btn-sm btn-danger"
+                      onclick="return confirm('Bạn có chắc chắn muốn xoá khoa này?');"
+                    >
+                      <i class="bi bi-trash"></i> Xoá
+                    </a>
+                  </td>
+                </tr>
+                <tr th:if="${departments.size()} == 0">
+                  <td colspan="3" class="text-center text-muted">
+                    Không có khoa nào được tìm thấy.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nút cuộn lên đầu -->
+    <div id="backToTop" class="d-flex" onclick="scrollToTop()">
+      <i class="bi bi-arrow-up"></i>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      window.onscroll = function () {
+        const btn = document.getElementById("backToTop");
+        if (
+          document.body.scrollTop > 200 ||
+          document.documentElement.scrollTop > 200
+        ) {
+          btn.style.display = "flex";
+        } else {
+          btn.style.display = "none";
+        }
+      };
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    </script>
+  </body>
+</html>

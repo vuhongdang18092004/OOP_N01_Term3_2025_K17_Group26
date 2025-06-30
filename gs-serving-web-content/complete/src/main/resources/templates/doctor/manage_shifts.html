@@ -1,123 +1,191 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Quản lý ca trực</title></head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Quản lý Ca trực</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+    }
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      background-color: #ffffff;
+      border-right: 1px solid #dee2e6;
+    }
+    .sidebar .nav-link {
+      color: #333;
+      font-weight: 500;
+    }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background-color: #f0f0f0;
+      color: #0d6efd;
+    }
+    .main-content {
+      flex-grow: 1;
+      padding: 1.5rem;
+      background-color: #f8f9fa;
+    }
+  </style>
+</head>
 <body>
-<h2>Danh sách ca trực</h2>
-<table border="1">
-    <tr>
-        <th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Xóa</th>
-    </tr>
-    <tr th:each="s : ${shifts}">
-        <td th:text="${s.day}"></td>
-        <td th:text="${s.startTime + ' - ' + s.endTime}"></td>
-        <td th:text="${s.room.roomNumber}"></td>
-        <td>
-            <a th:href="@{'/doctor/shifts/delete/' + ${s.id} + '?doctorId=' + ${s.doctor.id}}">Xóa</a>
-        </td>
-    </tr>
-</table>
+  <!-- Sidebar -->
+  <div class="sidebar d-flex flex-column p-3 shadow-sm">
+    <a th:href="@{/doctor/dashboard}" class="d-flex align-items-center mb-3 text-decoration-none">
+      <div class="me-2">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+          <circle fill="#007bff" cx="24" cy="16" r="2"/>
+          <path d="M24,12a4,4,0,0,0-1,7.86V22a6,6,0,0,1-6,6,6,6,0,0,1-6-6V19h1l1-1V16.41A8,8,0,0,0,18,9V4L17,3H14V5h2V9a6,6,0,0,1-6,6A5.81,5.81,0,0,1,9.14,15.94,6,6,0,0,1,4,9V5H6V3H3L2,4V9a8.06,8.06,0,0,0,5,7.41V18l1,1H9v3a8,8,0,0,0,16,0V19.86A4,4,0,0,0,24,12Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,24,18Z"/>
+        </svg>
+      </div>
+      <span class="fs-5 fw-bold">Doctor Panel</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li><a th:href="@{/doctor/dashboard}" class="nav-link"><i class="bi bi-house-door me-2"></i>Dashboard</a></li>
+      <li><a th:href="@{/doctor/appointments(doctorId=${doctorId})}" class="nav-link"><i class="bi bi-calendar-check me-2"></i>Lịch hẹn</a></li>
+      <li><a th:href="@{/doctor/shifts(doctorId=${doctorId})}" class="nav-link active"><i class="bi bi-clock me-2"></i>Ca trực</a></li>
+      <li><a th:href="@{/doctor/profile(doctorId=${doctorId})}" class="nav-link"><i class="bi bi-person-lines-fill me-2"></i>Hồ sơ cá nhân</a></li>
+    </ul>
+    <hr>
+    <a th:href="@{/logout}" class="btn btn-outline-danger w-100">
+      <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
+    </a>
+  </div>
 
-<h3>Thêm ca trực mới</h3>
-<form th:action="@{/doctor/shifts}" method="post" th:object="${newShift}">
-    <input type="hidden" name="doctorId" th:value="${shifts[0]?.doctor?.id}" />
-    
-    <label>Ngày:</label>
-    <select th:field="*{day}">
-        <option th:each="d : ${T(com.yourcompany.yourproject.model.entity.DayOfWeek).values()}"
-                th:value="${d}" th:text="${d}"></option>
-    </select><br>
+  <!-- Main Content -->
+  <div class="main-content container-fluid">
+    <!-- Thông báo -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show text-center">
+      <i class="bi bi-check-circle-fill me-2"></i><span th:text="${success}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show text-center">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i><span th:text="${error}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
 
-    <label>Giờ bắt đầu:</label>
-    <input type="time" th:field="*{startTime}" required><br>
+    <!-- Đăng ký ca trực -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h4 class="card-title text-success mb-3">
+          <i class="bi bi-plus-circle me-1"></i>Đăng ký ca trực mới
+        </h4>
+        <form th:action="@{/doctor/shifts}" method="post" class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Ngày</label>
+            <input type="date" name="date" class="form-control" required/>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Giờ bắt đầu</label>
+            <input type="time" name="startTime" class="form-control" required/>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Giờ kết thúc</label>
+            <input type="time" name="endTime" class="form-control" required/>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Phòng</label>
+            <select name="roomId" class="form-select" required>
+              <option value="">-- Chọn phòng --</option>
+              <option th:each="room : ${rooms}" th:value="${room.id}" th:text="'Phòng ' + ${room.roomNumber}"></option>
+            </select>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-plus-lg me-1"></i>Đăng ký
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-    <label>Giờ kết thúc:</label>
-    <input type="time" th:field="*{endTime}" required><br>
+    <!-- Lọc ca trực -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title text-primary mb-3">
+          <i class="bi bi-funnel me-1"></i>Tìm kiếm ca trực
+        </h5>
+        <form method="get" th:action="@{/doctor/shifts}" class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Ngày</label>
+            <input type="date" name="date" class="form-control" th:value="${filterDate}"/>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Phòng</label>
+            <select name="roomId" class="form-select">
+              <option value="">-- Tất cả phòng --</option>
+              <option th:each="room : ${rooms}" th:value="${room.id}" th:text="'Phòng ' + ${room.roomNumber}" th:selected="${room.id == filterRoomId}"></option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Trạng thái</label>
+            <select name="status" class="form-select">
+              <option value="">-- Tất cả --</option>
+              <option value="AVAILABLE" th:selected="${filterStatus=='AVAILABLE'}">AVAILABLE</option>
+              <option value="PENDING" th:selected="${filterStatus=='PENDING'}">PENDING</option>
+              <option value="COMPLETE" th:selected="${filterStatus=='COMPLETE'}">COMPLETE</option>
+            </select>
+          </div>
+          <div class="col-md-1 d-flex align-items-end">
+            <button type="submit" class="btn btn-outline-primary w-100">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-    <label>Phòng:</label>
-    <select th:field="*{room}">
-        <option th:each="r : ${rooms}" th:value="${r}" th:text="${r.roomNumber}"></option>
-    </select><br>
-
-    <button type="submit">Thêm</button>
-</form>
+    <!-- Danh sách ca trực -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title text-primary mb-4 text-center">
+          <i class="bi bi-list-ul me-2"></i>Danh sách ca trực
+        </h3>
+        <table class="table table-bordered table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Ngày</th>
+              <th>Bắt đầu</th>
+              <th>Kết thúc</th>
+              <th>Phòng</th>
+              <th>Trạng thái</th>
+              <th class="text-center">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="shift : ${shifts}">
+              <td th:text="${#temporals.format(shift.date, 'dd/MM/yyyy')}"></td>
+              <td th:text="${shift.startTime}"></td>
+              <td th:text="${shift.endTime}"></td>
+              <td th:text="${shift.room != null ? 'Phòng ' + shift.room.roomNumber : 'Chưa chọn'}"></td>
+              <td>
+                <span th:classappend="${shift.status=='AVAILABLE'?'badge bg-success':(shift.status=='PENDING'?'badge bg-warning text-dark':'badge bg-secondary')}"
+                      th:text="${shift.status}"></span>
+              </td>
+              <td class="text-center">
+                <a th:href="@{'/doctor/shifts/edit/' + ${shift.id}}" class="btn btn-sm btn-warning me-2">
+                  <i class="bi bi-pencil-square"></i> Sửa
+                </a>
+                <a th:href="@{'/doctor/shifts/delete/' + ${shift.id}}" onclick="return confirm('Bạn chắc chắn muốn xoá?');" class="btn btn-sm btn-danger">
+                  <i class="bi bi-trash"></i> Xoá
+                </a>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(shifts)}">
+              <td colspan="6" class="text-center text-muted">
+                Không có ca trực nào.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> -->
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title>Quản lý ca trực</title>
-    <meta charset="UTF-8" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="container my-4">
-    <h2 class="mb-4">Quản lý ca trực</h2>
-
-    <div
-      th:if="${success}"
-      class="alert alert-success"
-      th:text="${success}"
-    ></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-    <h3 class="mt-5">Đăng ký ca trực mới</h3>
-    <form th:action="@{/doctor/shifts}" method="post" class="row g-3">
-      <div class="col-md-4">
-        <label class="form-label">Ngày:</label>
-        <input type="date" name="date" class="form-control" required />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Giờ bắt đầu:</label>
-        <input type="time" name="startTime" class="form-control" required />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Giờ kết thúc:</label>
-        <input type="time" name="endTime" class="form-control" required />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Phòng:</label>
-        <select name="roomId" class="form-select" required>
-          <option
-            th:each="room : ${rooms}"
-            th:value="${room.id}"
-            th:text="'Phòng ' + ${room.roomNumber}"
-          ></option>
-        </select>
-      </div>
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Đăng ký ca trực</button>
-        <a th:href="@{/doctor/dashboard}" class="btn btn-secondary ms-2"
-          >Quay lại Dashboard</a
-        >
-      </div>
-    </form>
-
-    <table class="table table-bordered table-hover">
-      <thead class="table-light">
-        <tr>
-          <th>Ngày</th>
-          <th>Giờ bắt đầu</th>
-          <th>Giờ kết thúc</th>
-          <th>Phòng</th>
-          <th>Trạng thái</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="shift : ${shifts}">
-          <td th:text="${shift.date}"></td>
-          <td th:text="${shift.startTime}"></td>
-          <td th:text="${shift.endTime}"></td>
-          <td
-            th:text="${shift.room != null ? shift.room.roomNumber : 'Chưa chọn'}"
-          ></td>
-          <td th:text="${shift.status}"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Bootstrap 5 JS (tuỳ chọn) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
 </html>
