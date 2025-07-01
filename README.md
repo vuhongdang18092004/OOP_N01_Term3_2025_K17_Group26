@@ -30,16 +30,20 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
 ## 🖼️ Giao diện hệ thống
 
 ### Trang đăng nhập
-![Login Page](link-ảnh)
+![2afd9902d3a564fb3db4](https://github.com/user-attachments/assets/0dd30d6c-be29-4866-874b-4e10b6aad123)
+
 
 ### Giao diện Admin
-![Admin Page](link-ảnh)
+![fe0650e31a44ad1af455](https://github.com/user-attachments/assets/c61fa1a9-902f-4359-911f-53df2b748e95)
+
 
 ### Giao diện Bác sĩ
-![Doctor Page](link-ảnh)
+![b687648c2f2b9875c13a](https://github.com/user-attachments/assets/dc0e192e-8031-4dda-96f7-723804509091)
+
 
 ### Giao diện Bệnh nhân
-![Patient Page](link-ảnh)
+![0bf471f33a548d0ad445](https://github.com/user-attachments/assets/cd18914c-64a3-4b45-b159-ca5f0d4d5d61)
+
 
 ---
 
@@ -79,23 +83,23 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
 ## 📊 Các sơ đồ chi tiết
 **1. [Use Case Diagram]**
   
-  ![Editor _ Mermaid Chart-2025-07-01-041722](https://github.com/user-attachments/assets/1d7a1d82-94a9-42da-82eb-fd606ce69721)
+  (https://github.com/user-attachments/assets/1d7a1d82-94a9-42da-82eb-fd606ce69721)
 
   
 **2. [Class Diagram]**
-  ![SĐL TQ](https://github.com/user-attachments/assets/b07a8136-f615-49d1-afee-76d731194d39)
+  (https://github.com/user-attachments/assets/b07a8136-f615-49d1-afee-76d731194d39)
 
 
 **3. [Activity Diagram]**
-  ![AD TQ](https://github.com/user-attachments/assets/93c9f5b8-fd58-4290-a3c9-d2003ef97283)
+  (https://github.com/user-attachments/assets/93c9f5b8-fd58-4290-a3c9-d2003ef97283)
 
 
 **4. [Sequence Diagram]**
-  ![biểu đồ tuần tự tổng quát](https://github.com/user-attachments/assets/367e9b1d-74e9-465e-bbdf-5e76d117f12b)
+  (https://github.com/user-attachments/assets/367e9b1d-74e9-465e-bbdf-5e76d117f12b)
 
 
 **5. [ERD (Sơ đồ quan hệ cơ sở dữ liệu)]**
-  ![Editor _ Mermaid Chart-2025-07-01-033912](https://github.com/user-attachments/assets/5fa9edff-75bf-4169-a11b-d38fe4eda27a)
+  (https://github.com/user-attachments/assets/5fa9edff-75bf-4169-a11b-d38fe4eda27a)
 
 
 ---
