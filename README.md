@@ -132,6 +132,12 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
 
 ---
 
+## 🗂️ Cấu trúc thư mục dự án
+![88589a6da2ca15944cdb](https://github.com/user-attachments/assets/344f943e-7c1b-4497-b617-3a530fc05f2c)
+
+
+---
+
 ## 🧑‍💻 Hướng dẫn cài đặt
 
 ```bash
