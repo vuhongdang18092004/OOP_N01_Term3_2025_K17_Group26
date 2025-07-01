@@ -81,14 +81,18 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
   
   ![Editor _ Mermaid Chart-2025-07-01-041722](https://github.com/user-attachments/assets/1d7a1d82-94a9-42da-82eb-fd606ce69721)
 
+  
 **2. [Class Diagram]**
   ![SĐL TQ](https://github.com/user-attachments/assets/b07a8136-f615-49d1-afee-76d731194d39)
+
 
 **3. [Activity Diagram]**
   ![AD TQ](https://github.com/user-attachments/assets/93c9f5b8-fd58-4290-a3c9-d2003ef97283)
 
+
 **4. [Sequence Diagram]**
   ![biểu đồ tuần tự tổng quát](https://github.com/user-attachments/assets/367e9b1d-74e9-465e-bbdf-5e76d117f12b)
+
 
 **5. [ERD (Sơ đồ quan hệ cơ sở dữ liệu)]**
   ![Editor _ Mermaid Chart-2025-07-01-033912](https://github.com/user-attachments/assets/5fa9edff-75bf-4169-a11b-d38fe4eda27a)
