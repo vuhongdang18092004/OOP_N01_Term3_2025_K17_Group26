@@ -30,11 +30,16 @@ Phần mềm quản lý bệnh viện.
 ![Editor _ Mermaid Chart-2025-07-01-033912](https://github.com/user-attachments/assets/29efd512-eaec-422a-96bf-5e7cbebb174a)
 
 ---
-1.3 Biểu đồ tuần tự tổng quan toàn hệ thống
+1.3 Active Diagram
+![AD TQ](https://github.com/user-attachments/assets/bd7fff2f-063e-4c4b-9021-efe99c5cf83b)
+
+---
+
+1.4 Biểu đồ tuần tự tổng quan toàn hệ thống
 ![biểu đồ tuần tự tổng quát](https://github.com/user-attachments/assets/9186aa94-c560-4fcd-bee7-ea20689c70d1)
 
 ---
-1.4 Sơ đồ lớp tổng quát
+1.5 Sơ đồ lớp tổng quát
 ![SĐL TQ](https://github.com/user-attachments/assets/a7dbf5e4-def0-4136-adfe-cd8a28c96c63)
 
 ---
