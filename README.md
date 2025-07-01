@@ -50,22 +50,21 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
 - Quản lý khoa (thêm, sửa, xóa)
 - Quản lý phòng (thêm, sửa, xóa)
 - Quản lý bác sĩ (thêm, sửa, xóa)
-- Quản lý bệnh nhân (thêm, sửa, xóa)
-- Quản lý lịch khám (thêm, hủy, cập nhật)
-- Tìm kiếm bệnh nhân, bác sĩ
+- Quản lý bệnh nhân (hiện thông tin, tìm kiếm)
+- Quản lý lịch khám (hiện thông tin, tìm kiếm)
+- Tìm kiếm bệnh nhân, bác sĩ, lịch khám
 
 ### ✅ Bác sĩ
 - Đăng nhập hệ thống
 - Xem lịch khám cá nhân
 - Cập nhật lịch sử khám bệnh
-- Tìm kiếm bệnh nhân
 
 ### ✅ Bệnh nhân
 - Đăng nhập hệ thống
 - Đặt lịch khám
 - Kiểm tra lịch khám sắp tới
 - Hủy lịch khám
-- Tìm kiếm bác sĩ
+- Tìm kiếm lịch khám
 
 ---
 
@@ -107,7 +106,7 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
 - ORM: Spring Data JPA
 - Template Engine: Thymeleaf 
 - Công cụ thiết kế UML: PlantUML, StarUML
-- IDE: IntelliJ IDEA / Eclipse
+- IDE: Vscode
 
 ---
 
@@ -125,15 +124,17 @@ cd OOP_N01_Term3_2025_K17_Group26
 Mở project bằng IntelliJ IDEA hoặc Eclipse
 Cấu hình kết nối cơ sở dữ liệu trong file config
 Chạy ứng dụng
-
+ ./mvnw spring-boot:run
+Chạy lệnh để chạy phần test
+./mvnw test           
 ---
 
 ## 📝 Hướng dẫn sử dụng
 
 ### Đăng nhập
-- Tài khoản Admin: `admin` / `123456`
-- Tài khoản Bác sĩ: `bacsi` / `123456`
-- Tài khoản Bệnh nhân: `benhnhan` / `123456`
+- Tài khoản Admin: `admin` / `1234567`
+- Tài khoản Bác sĩ: `minhnhat` / `1234567`
+- Tài khoản Bệnh nhân: `dang` / `1234567`
 
 ---
 
@@ -142,7 +143,7 @@ Chạy ứng dụng
 - Quản lý phòng: Thêm, sửa, xóa
 - Quản lý bác sĩ: Thêm, sửa, xóa
 - Quản lý bệnh nhân: Thêm, sửa, xóa
-- Quản lý lịch khám: Thêm, hủy, cập nhật
+- Quản lý lịch khám: Xem, tìm kiếm
 - Tìm kiếm thông tin: Bệnh nhân, bác sĩ, lịch khám
 
 ---

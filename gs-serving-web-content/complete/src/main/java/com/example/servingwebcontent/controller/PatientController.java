@@ -66,6 +66,22 @@ public class PatientController {
         return "patient/book_appointment";
     }
 
+    @PostMapping("/book")
+    public String submitBooking(
+            @RequestParam Long shiftId,
+            Principal principal,
+            RedirectAttributes redirectAttributes) {
+        try {
+            Patient patient = getPatient(principal);
+            appointmentService.bookAppointment(patient.getId(), shiftId);
+            redirectAttributes.addFlashAttribute("success", "Đặt lịch thành công!");
+            return "redirect:/patient/history";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi khi đặt lịch: " + e.getMessage());
+            return "redirect:/patient/book";
+        }
+    }
+
     // Quản lý hồ sơ
     @GetMapping("/profile")
     public String viewProfile(Model model, Principal principal) {
