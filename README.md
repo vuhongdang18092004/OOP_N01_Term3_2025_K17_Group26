@@ -1,6 +1,6 @@
 # OOP_N01_Term3_2025_K17_Group6
 
-## **Phần mềm quản lý bệnh viện**
+## **PHẦN MỀM QUẢN LÝ LỊCH KHÁM VÀ XE CỨU THƯƠNG**
 
 **Group 6 members:**
 1. Vũ Hồng Đăng  
@@ -12,50 +12,169 @@
 4. Nguyễn Lệ Thu  
    *Github: nglthu*
 
----
+# 📋 Hospital Management System
 
-## **TÊN ĐỀ TÀI: PHẦN MỀM QUẢN LÝ LỊCH KHÁM VÀ XE CỨU THƯƠNG**
-
----
-1.1 Use case tổng quát
-![Editor _ Mermaid Chart-2025-07-01-041722](https://github.com/user-attachments/assets/b0fdf869-1da3-4252-bc45-04b20fa5e70a)
-
----
-1.2 Sơ đồ quan hệ database
-![Editor _ Mermaid Chart-2025-07-01-033912](https://github.com/user-attachments/assets/29efd512-eaec-422a-96bf-5e7cbebb174a)
-
----
-1.3 Active Diagram
-![AD TQ](https://github.com/user-attachments/assets/bd7fff2f-063e-4c4b-9021-efe99c5cf83b)
-
-----
-1.4 Biểu đồ tuần tự tổng quan toàn hệ thống
-![biểu đồ tuần tự tổng quát](https://github.com/user-attachments/assets/9186aa94-c560-4fcd-bee7-ea20689c70d1)
-
----
-1.5 Sơ đồ lớp tổng quát
-![SĐL TQ](https://github.com/user-attachments/assets/a7dbf5e4-def0-4136-adfe-cd8a28c96c63)
+## 🚀 Giới thiệu
+Dự án **Hệ thống Quản lý Bệnh viện** hỗ trợ các nghiệp vụ quản lý khoa, phòng, bác sĩ, bệnh nhân, lịch khám, lịch sử khám.  
+Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nhân** với các chức năng quản lý và thao tác linh hoạt.
 
 ---
 
-### Miêu tả phương thức: kiemTraLichKhamHomNay
-- **Tên phương thức:** `hienThiDanhSachLichKham`
+## 🎥 Demo
+![Demo Giao diện](link-ảnh-demo)
 
-- **Mục đích:**
-  Hiển thị danh sách các lịch khám hiện có cho người dùng.  
-  Nếu danh sách trống, hiển thị thông báo `"Hiện không có lịch khám nào."`
+[👉 Xem video demo tại đây](link-video-demo)
 
-- **Tham số đầu vào:**
-  `danhSachLichKham (List<Appointment>)`: Danh sách các lịch khám cần hiển thị.
+---
 
-- **Giá trị trả về:**
-  Không có giá trị trả về (`void`), phương thức chỉ thực hiện in ra màn hình.
+## 🖼️ Giao diện hệ thống
 
-- **Mô tả chi tiết:**
-  Phương thức sẽ kiểm tra xem danh sách lịch khám có rỗng hay không bằng cách gọi `isEmpty()` trên `danhSachLichKham`.  
-    Nếu danh sách rỗng, in ra thông báo `"Hiện không có lịch khám nào."`
-    Ngược lại, duyệt qua danh sách và in thông tin chi tiết của từng lịch khám bằng vòng lặp `for`.
+### Trang đăng nhập
+![Login Page](link-ảnh)
 
-- **Ý nghĩa:**
-Phương thức này giúp nhân viên y tế dễ dàng xem được các lịch khám hiện tại mà không cần tìm thủ công trong dữ liệu. Nếu không có lịch nào, hệ thống phản hồi rõ ràng để người dùng biết. Điều này giúp cải thiện trải nghiệm sử dụng phần mềm và tiết kiệm thời gian tra cứu thông tin.
+### Giao diện Admin
+![Admin Page](link-ảnh)
+
+### Giao diện Bác sĩ
+![Doctor Page](link-ảnh)
+
+### Giao diện Bệnh nhân
+![Patient Page](link-ảnh)
+
+---
+
+## 🛠️ Tính năng chính
+
+### ✅ Admin
+- Đăng nhập hệ thống
+- Quản lý khoa (thêm, sửa, xóa)
+- Quản lý phòng (thêm, sửa, xóa)
+- Quản lý bác sĩ (thêm, sửa, xóa)
+- Quản lý bệnh nhân (thêm, sửa, xóa)
+- Quản lý lịch khám (thêm, hủy, cập nhật)
+- Tìm kiếm bệnh nhân, bác sĩ
+
+### ✅ Bác sĩ
+- Đăng nhập hệ thống
+- Xem lịch khám cá nhân
+- Cập nhật lịch sử khám bệnh
+- Tìm kiếm bệnh nhân
+
+### ✅ Bệnh nhân
+- Đăng nhập hệ thống
+- Đặt lịch khám
+- Kiểm tra lịch khám sắp tới
+- Hủy lịch khám
+- Tìm kiếm bác sĩ
+
+---
+
+## 🗂️ Mô hình hệ thống
+- UML Use Case Diagram
+- UML Class Diagram tổng quát
+- UML Sequence Diagram cho từng chức năng
+- UML Activity Diagram tổng quan và chi tiết
+- Entity Relationship Diagram (ERD)
+
+## 📊 Các sơ đồ chi tiết
+- [Use Case Diagram]
+  ![Editor _ Mermaid Chart-2025-07-01-041722](https://github.com/user-attachments/assets/1d7a1d82-94a9-42da-82eb-fd606ce69721)
+
+- [Class Diagram]
+  ![SĐL TQ](https://github.com/user-attachments/assets/b07a8136-f615-49d1-afee-76d731194d39)
+
+- [Activity Diagram]
+  ![AD TQ](https://github.com/user-attachments/assets/93c9f5b8-fd58-4290-a3c9-d2003ef97283)
+
+- [Sequence Diagram]
+  ![biểu đồ tuần tự tổng quát](https://github.com/user-attachments/assets/367e9b1d-74e9-465e-bbdf-5e76d117f12b)
+
+- [ERD (Sơ đồ quan hệ cơ sở dữ liệu)]
+  ![Editor _ Mermaid Chart-2025-07-01-033912](https://github.com/user-attachments/assets/5fa9edff-75bf-4169-a11b-d38fe4eda27a)
+
+
+---
+
+## 💾 Công nghệ sử dụng
+- Ngôn ngữ: Java
+- Framework: Spring Boot
+- Database: MySQL / SQL Server
+- ORM: Spring Data JPA
+- Template Engine: Thymeleaf 
+- Công cụ thiết kế UML: PlantUML, StarUML
+- IDE: IntelliJ IDEA / Eclipse
+
+---
+
+## 📌 Yêu cầu hệ thống
+- Java JDK 8 trở lên
+- MySQL / SQL Server
+- PlantUML để đọc sơ đồ
+
+---
+
+## 🧑‍💻 Hướng dẫn cài đặt
+```bash
+git clone https://github.com/ten_cua_cau/hospital-management.git
+cd hospital-management
+Mở project bằng IntelliJ IDEA hoặc Eclipse
+Cấu hình kết nối cơ sở dữ liệu trong file config
+Chạy ứng dụng
+
+---
+
+## 📝 Hướng dẫn sử dụng
+
+### Đăng nhập
+- Tài khoản Admin: `admin` / `123456`
+- Tài khoản Bác sĩ: `bacsi` / `123456`
+- Tài khoản Bệnh nhân: `benhnhan` / `123456`
+
+---
+
+### Admin
+- Quản lý khoa: Thêm, sửa, xóa
+- Quản lý phòng: Thêm, sửa, xóa
+- Quản lý bác sĩ: Thêm, sửa, xóa
+- Quản lý bệnh nhân: Thêm, sửa, xóa
+- Quản lý lịch khám: Thêm, hủy, cập nhật
+- Tìm kiếm thông tin: Bệnh nhân, bác sĩ, lịch khám
+
+---
+
+### Bác sĩ
+- Xem lịch khám cá nhân
+- Cập nhật lịch sử khám bệnh
+- Tìm kiếm thông tin bệnh nhân
+
+---
+
+### Bệnh nhân
+- Đặt lịch khám
+- Xem lịch khám cá nhân
+- Hủy lịch khám
+- Tìm kiếm bác sĩ
+
+---
+
+## 🎯 Phân quyền người dùng
+
+| Chức năng                 | Admin | Bác sĩ | Bệnh nhân |
+|---------------------------|-------|--------|-----------|
+| Đăng nhập                 | ✅    | ✅    | ✅        |
+| Quản lý khoa              | ✅    | ❌    | ❌        |
+| Quản lý phòng             | ✅    | ❌    | ❌        |
+| Quản lý bác sĩ            | ✅    | ❌    | ❌        |
+| Quản lý bệnh nhân         | ✅    | ❌    | ❌        |
+| Quản lý lịch khám         | ✅    | ❌    | ❌        |
+| Xem lịch khám             | ❌    | ✅    | ✅        |
+| Đặt lịch khám             | ❌    | ❌    | ✅        |
+| Hủy lịch khám             | ❌    | ❌    | ✅        |
+| Cập nhật lịch sử khám     | ❌    | ✅    | ❌        |
+| Tìm kiếm                  | ✅    | ✅    | ✅        |
+
+---
+
+
+
 
