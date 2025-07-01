@@ -33,8 +33,7 @@ Phần mềm quản lý bệnh viện.
 1.3 Active Diagram
 ![AD TQ](https://github.com/user-attachments/assets/bd7fff2f-063e-4c4b-9021-efe99c5cf83b)
 
----
-
+----
 1.4 Biểu đồ tuần tự tổng quan toàn hệ thống
 ![biểu đồ tuần tự tổng quát](https://github.com/user-attachments/assets/9186aa94-c560-4fcd-bee7-ea20689c70d1)
 
