@@ -24,7 +24,6 @@ Phần mềm quản lý bệnh viện.
 ---
 1.1 Use case tổng quát
 ![Editor _ Mermaid Chart-2025-07-01-041722](https://github.com/user-attachments/assets/b0fdf869-1da3-4252-bc45-04b20fa5e70a)
-![UCTQ](https://github.com/user-attachments/assets/55ee0fad-1762-4d2c-b11f-f1d6075f0b0a)
 
 ---
 1.2 Sơ đồ quan hệ database
