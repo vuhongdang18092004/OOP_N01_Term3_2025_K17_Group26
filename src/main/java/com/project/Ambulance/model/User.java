@@ -18,6 +18,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private int idUser;
 
     @Column(name = "username", columnDefinition = "nvarchar(30) not null", unique = true)

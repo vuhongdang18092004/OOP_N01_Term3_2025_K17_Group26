@@ -63,7 +63,7 @@ public class Booking {
 
     // === Người tạo yêu cầu này (nếu là nhân viên quản lý đăng nhập) ===
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
     @JsonIgnore
     private User user;
 
