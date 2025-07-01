@@ -23,7 +23,7 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
 ## 🎥 Demo
 ![Demo Giao diện](link-ảnh-demo)
 
-[👉 Xem video demo tại đây](link-video-demo)
+[👉 Xem video demo tại đây](https://www.youtube.com/watch?v=MN2OORaIH-c)
 
 ---
 
@@ -115,8 +115,8 @@ Hệ thống phân quyền người dùng: **Admin**, **Bác sĩ**, **Bệnh nh�
 
 ## 🧑‍💻 Hướng dẫn cài đặt
 ```bash
-git clone https://github.com/ten_cua_cau/hospital-management.git
-cd hospital-management
+git clone https://github.com/vuhongdang18092004/OOP_N01_Term3_2025_K17_Group26.git
+cd OOP_N01_Term3_2025_K17_Group26
 Mở project bằng IntelliJ IDEA hoặc Eclipse
 Cấu hình kết nối cơ sở dữ liệu trong file config
 Chạy ứng dụng
