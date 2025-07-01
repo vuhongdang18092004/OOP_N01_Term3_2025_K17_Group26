@@ -14,12 +14,7 @@
 
 ---
 
-## **Câu 1: Tiêu đề bài tập lớn**
-Phần mềm quản lý bệnh viện.
-
----
-
-##UML Dự án
+## **TÊN ĐỀ TÀI: PHẦN MỀM QUẢN LÝ LỊCH KHÁM VÀ XE CỨU THƯƠNG**
 
 ---
 1.1 Use case tổng quát
